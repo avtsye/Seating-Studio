@@ -47,3 +47,6 @@ aside.assign-aside .people-list{max-height:none;min-height:120px;flex:1}
 .seat-dot.multi-selected{box-shadow:0 0 0 2px var(--accent),0 0 14px #f2c94c99!important;z-index:6}
 .bulk-selection-card{transition:border-color .15s,box-shadow .15s}.bulk-selection-card.has-selection{border-color:var(--accent);box-shadow:inset 0 0 0 1px #f2c94c44}.bulk-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.bulk-actions button{padding:7px;border:1px solid var(--line);background:#202a3a;color:var(--tx);border-radius:8px;cursor:pointer}
 @media(max-width:1150px){.group-legend{max-width:360px}}
+
+.group-priority-controls{grid-area:select;display:flex;gap:6px;align-items:center}.group-priority-controls select{min-width:0;flex:1}.group-color-label{margin:0!important;display:block!important}.group-color{width:34px!important;height:32px!important;padding:2px!important;border-radius:7px!important;cursor:pointer}
+.bulk-group-label{display:grid;gap:5px;margin-bottom:8px}.bulk-group-label select{width:100%;padding:8px;border:1px solid var(--line);background:#0c111a;color:var(--tx);border-radius:8px}.bulk-actions{grid-template-columns:1fr 1fr}
