@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {removeBlockedCells,removeBlockedCell,toggleBlockedCells} from '../src/seat-overlays.js';
+import {removeBlockedCells,removeBlockedCell,toggleBlockedCells,setBlockedCells} from '../src/seat-overlays.js';
 
 const blocked=[{x:1,y:1},{x:2,y:2},{x:3,y:3}];
 assert.deepEqual(removeBlockedCells(blocked,[{x:2,y:2}]),[{x:1,y:1},{x:3,y:3}],
@@ -26,3 +26,10 @@ assert.deepEqual(toggleBlockedCells([{x:1,y:0}],[{x:0,y:0},{x:1,y:0}],seats),[{x
   'a drag toggles each covered seating cell independently');
 assert.deepEqual(toggleBlockedCells([],[{x:9,y:9}],seats),[],
   'non-seat cells must be ignored by the blocked toggle');
+
+assert.deepEqual(setBlockedCells([{x:1,y:0}],[{x:1,y:0}],seats,false),[],
+  'setBlockedCells must explicitly unblock an existing blocked seat');
+assert.deepEqual(setBlockedCells([],[{x:1,y:0}],seats,true),[{x:1,y:0}],
+  'setBlockedCells must explicitly block an available seat');
+assert.deepEqual(setBlockedCells([{x:1,y:0}],[{x:1,y:0},{x:2,y:0}],seats,false),[],
+  'unblock mode must be idempotent across a drag');
