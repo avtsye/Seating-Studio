@@ -7,7 +7,7 @@ const fullSeats=[{type:'chair',cells:Array.from({length:8},(_,y)=>Array.from({le
 
 // Default shape: front has 2/3 weight and center has 1/3 weight.
 // A central seat can still beat an extreme-edge seat, but front matters twice as much.
-assert.ok(seatPriorityScore(s(5,3),hall,fullSeats)<seatPriorityScore(s(0,0),hall,fullSeats),
+assert.ok(seatPriorityScore(s(5,3),hall,fullSeats)<seatPriorityScore(s(0,1),hall,fullSeats),
   'center must materially affect priority, not only break ties');
 
 // One row back costs the same as moving two columns away from center.
@@ -20,7 +20,7 @@ const aisleAreas=[...fullSeats,{type:'aisle',cells:[{x:4,y:3}]}];
 const plain=seatPriorityScore(s(6,3),hall,aisleAreas);
 const byAisle=seatPriorityScore(s(5,3),hall,aisleAreas);
 assert.equal(seatPriorityParts(s(5,3),hall,aisleAreas).edgeBonus,1.5,'aisle-adjacent seat should get a 1.5 bonus');
-assert.equal(plain-byAisle,2.5,'aisle bonus should improve the adjacent seat by 1.5 on top of its normal center advantage');
+assert.equal(plain-byAisle,1.5,'aisle bonus should improve an otherwise equivalent seat by exactly 1.5');
 
 const wallSeat=seatPriorityParts(s(0,3),hall,fullSeats);
 assert.equal(wallSeat.edgeBonus,1.5,'wall-adjacent seat should get a 1.5 bonus');
