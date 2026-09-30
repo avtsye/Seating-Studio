@@ -14,16 +14,16 @@
 <header class="topbar">
   <div class="brand"><strong>Seating Studio</strong><span>ניהול ושיבוץ אולם</span></div>
   <nav class="modes"><button class="active" data-mode="layout">בניית האולם</button><button data-mode="assign">שיבוץ</button><button data-mode="final">תוצאה</button></nav>
-  <div class="top-actions"><button id="openWizard">אשף אולם</button><button id="save">שמור</button><button id="load">טען</button><input id="fileInput" type="file" accept=".json" hidden></div>
+  <div class="top-actions"><button id="openWizard">אשף אולם</button><button id="save">גיבוי</button><button id="load">שחזור</button><button id="clearLocal">איפוס</button><input id="fileInput" type="file" accept=".json" hidden></div>
 </header>
 <main>
  <section class="workspace">
   <div class="toolbar">
-   <div class="tool-group"><button class="tool active" data-tool="select">בחירה</button><button class="tool" data-tool="seat">＋ מקום</button><button class="tool" data-tool="row">＋ שורה</button><button class="tool" data-tool="aisle">מעבר</button></div>
+   <div class="tool-group"><button class="tool active" data-tool="select">בחירה</button><button class="tool" data-tool="seat">＋ מקום</button><button class="tool" data-tool="row">＋ שורה</button><button class="tool" data-tool="aisle">מעבר</button><button class="tool" data-tool="block">＋ גוש</button><button class="tool" data-tool="table">＋ שולחן</button><button class="tool" data-tool="bench">＋ ספסל</button><button class="tool" data-tool="stage">＋ במה</button><button class="tool" data-tool="empty">שטח ריק</button></div>
    <div class="grow"></div><input id="search" placeholder="חיפוש מקום או משובץ">
    <button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
   </div>
-  <div id="viewport"><div id="canvas"><div class="stage">במה</div><div id="seatLayer"></div></div></div>
+  <div id="viewport"><div id="canvas"><div id="objectLayer"></div><div id="seatLayer"></div></div></div>
   <div class="statusbar"><span id="status">מוכן</span><span>גלגלת: זום · גרירה: הזזת מפה</span></div>
  </section>
  <aside>
