@@ -22,7 +22,7 @@ function stageFrontDepth(seat,areas){
 export function seatPriorityParts(seat,hall,areas){
   const front=stageFrontDepth(seat,areas);
   const center=Math.abs(seat.cell.x-seatingCenterX(hall,areas));
-  return {front,center,total:front+center};
+  return {front,center,total:front*2+center};
 }
 export function seatPriorityScore(seat,hall,areas){
   return seatPriorityParts(seat,hall,areas).total;
