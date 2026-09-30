@@ -3,10 +3,18 @@
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head>
 <body>
 <div id="app">
+<div id="wizard" class="wizard-overlay">
+ <div class="wizard-box">
+  <header><div><strong>אשף בניית אולם</strong><p id="wizardHint">שלב 1 מתוך 4 — הגדרות בסיס</p></div><button id="wizardClose">×</button></header>
+  <div class="wizard-progress"><i class="on"></i><i></i><i></i><i></i></div>
+  <section id="wizardBody"></section>
+  <footer><button id="wizardBack">הקודם</button><span></span><button class="primary" id="wizardNext">הבא</button></footer>
+ </div>
+</div>
 <header class="topbar">
   <div class="brand"><strong>Seating Studio</strong><span>ניהול ושיבוץ אולם</span></div>
   <nav class="modes"><button class="active" data-mode="layout">בניית האולם</button><button data-mode="assign">שיבוץ</button><button data-mode="final">תוצאה</button></nav>
-  <div class="top-actions"><button id="save">שמור</button><button id="load">טען</button><input id="fileInput" type="file" accept=".json" hidden></div>
+  <div class="top-actions"><button id="openWizard">אשף אולם</button><button id="save">שמור</button><button id="load">טען</button><input id="fileInput" type="file" accept=".json" hidden></div>
 </header>
 <main>
  <section class="workspace">
