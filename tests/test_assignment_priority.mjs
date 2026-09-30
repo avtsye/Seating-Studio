@@ -15,6 +15,19 @@ const pA=seatPriorityScore(s(5,2),hall,fullSeats);
 const pB=seatPriorityScore(s(3,1),hall,fullSeats);
 assert.equal(pA,pB,'one row back should equal two columns away from center');
 
+// A seat next to an aisle or wall gets a 1.5-point improvement, but the bonus is not cumulative.
+const aisleAreas=[...fullSeats,{type:'aisle',cells:[{x:4,y:3}]}];
+const plain=seatPriorityScore(s(6,3),hall,aisleAreas);
+const byAisle=seatPriorityScore(s(5,3),hall,aisleAreas);
+assert.equal(seatPriorityParts(s(5,3),hall,aisleAreas).edgeBonus,1.5,'aisle-adjacent seat should get a 1.5 bonus');
+assert.equal(plain-byAisle,2.5,'aisle bonus should improve the adjacent seat by 1.5 on top of its normal center advantage');
+
+const wallSeat=seatPriorityParts(s(0,3),hall,fullSeats);
+assert.equal(wallSeat.edgeBonus,1.5,'wall-adjacent seat should get a 1.5 bonus');
+
+const wallAndAisle=[...fullSeats,{type:'aisle',cells:[{x:1,y:3}]}];
+assert.equal(seatPriorityParts(s(0,3),hall,wallAndAisle).edgeBonus,1.5,'wall and aisle together should still give only one 1.5 bonus');
+
 // Symmetry around the center.
 assert.equal(seatPriorityScore(s(4,2),hall,fullSeats),seatPriorityScore(s(7,2),hall,fullSeats),
   'left and right positions at the same center distance should be equal');
