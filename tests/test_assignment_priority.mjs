@@ -39,10 +39,10 @@ const bottomStage=[{type:'stage',cells:[{x:0,y:10},{x:11,y:10}]},...fullSeats];
 assert.ok(compareSeatPriority(s(5,9),s(5,7),hall,bottomStage)<0,'nearer to a bottom stage must be better');
 
 // Group windows use the same combined front+center score.
-const centeredBack=windowPriority([s(5,2),s(6,2)],hall,fullSeats);
-const edgeFront=windowPriority([s(0,0),s(1,0)],hall,fullSeats);
-assert.ok(compareWindowPriority(centeredBack,edgeFront)<0,
-  'center should still materially affect group placement despite stronger front weight');
+const centeredRow=windowPriority([s(5,2),s(6,2)],hall,fullSeats);
+const edgeRow=windowPriority([s(0,2),s(1,2)],hall,fullSeats);
+assert.ok(compareWindowPriority(centeredRow,edgeRow)<0,
+  'center should materially affect group placement at the same forward depth');
 
 // Windows must stay inside one physical row and cannot wrap at row boundaries.
 const seats=[s(0,1),s(1,1),s(2,1),s(0,2),s(1,2),s(2,2)];
