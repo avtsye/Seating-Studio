@@ -1,5 +1,5 @@
 const $=s=>document.querySelector(s);const seatLayer=$('#seatLayer'),canvas=$('#canvas'),viewport=$('#viewport');let zoom=1,pan={x:40,y:15},drag=null,selected=null,tool='select';
-const state={seats:[]};
+const state={seats:[],hall:{name:'אולם חדש',grid:24,front:'top',columns:6,placesPerColumn:12,gap:70}};let wizardStep=0;
 function buildDemo(){let n=1;const blocks=[{x:95,y:145,cols:9,rows:16},{x:430,y:125,cols:8,rows:19},{x:735,y:145,cols:9,rows:16}];for(const b of blocks)for(let r=0;r<b.rows;r++)for(let c=0;c<b.cols;c++){if((r<2&&((c+r)%4===0))||(r>12&&c<r-12))continue;state.seats.push({id:String(n++),x:b.x+c*34,y:b.y+r*29,assigned:(n%11===0)?'משובץ '+n:'',locked:n%37===0})}}
 function render(){seatLayer.innerHTML='';for(const s of state.seats){const e=document.createElement('button');e.className='seat'+(s.assigned?' assigned':'')+(s.locked?' locked':'')+(selected===s.id?' selected':'');e.textContent=s.id;e.style.left=s.x+'px';e.style.top=s.y+'px';e.dataset.id=s.id;e.title=s.assigned?s.id+' — '+s.assigned:'מקום '+s.id;e.onclick=ev=>{ev.stopPropagation();selectSeat(s.id)};seatLayer.append(e)}updateStats();applyTransform()}
 function selectSeat(id){selected=id;const s=state.seats.find(x=>x.id===id);render();$('#panelTitle').textContent='מקום '+s.id;$('#panelSubtitle').textContent=s.locked?'מקום נעול':'עריכת מקום';$('#selection').innerHTML='<h3>פרטי מקום</h3><label class="field">שם / משובץ<input id="personName" value="'+escapeHtml(s.assigned)+'" placeholder="ללא שיבוץ"></label><div class="actions"><button id="toggleLock">'+(s.locked?'בטל נעילה':'נעל מקום')+'</button><button id="clearSeat">פנה מקום</button></div>';$('#personName').onchange=e=>{s.assigned=e.target.value.trim();render();selectSeat(id)};$('#toggleLock').onclick=()=>{s.locked=!s.locked;render();selectSeat(id)};$('#clearSeat').onclick=()=>{s.assigned='';render();selectSeat(id)}}
@@ -16,4 +16,26 @@ $('#closeSelection').onclick=()=>{selected=null;$('#panelTitle').textContent='ה
 $('#save').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='seating-studio.json';a.click();URL.revokeObjectURL(a.href)};
 $('#load').onclick=()=>$('#fileInput').click();$('#fileInput').onchange=async e=>{try{const data=JSON.parse(await e.target.files[0].text());if(!Array.isArray(data.seats))throw Error();state.seats=data.seats;selected=null;render();$('#status').textContent='המפה נטענה'}catch{$('#status').textContent='קובץ מפה לא תקין'}};
 $('#autoAssign').onclick=()=>{$('#status').textContent='מנוע השיבוץ יחובר בגל הבא'};
-buildDemo();render();setTimeout(()=>$('#fit').click(),0);
+function renumberColumns(){
+ const xs=[...new Set(state.seats.map(s=>s.x))].sort((a,b)=>a-b);
+ state.seats.forEach(s=>{const col=xs.indexOf(s.x)+1;const same=state.seats.filter(x=>x.x===s.x).sort((a,b)=>a.y-b.y);s.id=String(col*1000+same.indexOf(s)+1)});
+}
+function buildFromWizard(){
+ const h=state.hall;state.seats=[];const startX=120,startY=135;
+ for(let c=0;c<h.columns;c++)for(let r=0;r<h.placesPerColumn;r++)state.seats.push({id:'',x:startX+c*(34+h.gap),y:startY+r*29,assigned:'',locked:false});
+ renumberColumns();selected=null;render();setTimeout(()=>$('#fit').click(),0);
+}
+const wizardTitles=['הגדרות בסיס','מבנה ראשוני','מספור הטורים','בדיקה וסיום'];
+function wizardRender(){
+ $('#wizardHint').textContent='שלב '+(wizardStep+1)+' מתוך 4 — '+wizardTitles[wizardStep];
+ document.querySelectorAll('.wizard-progress i').forEach((x,i)=>x.classList.toggle('on',i<=wizardStep));
+ $('#wizardBack').disabled=wizardStep===0;$('#wizardNext').textContent=wizardStep===3?'צור אולם':'הבא';
+ const h=state.hall;
+ if(wizardStep===0)$('#wizardBody').innerHTML='<div class="wizard-grid"><div class="wizard-card"><h3>האולם</h3><label>שם האולם<input id="hallName" value="'+escapeHtml(h.name)+'"></label><label>כיוון החזית<select id="front"><option value="top">למעלה</option><option value="bottom">למטה</option><option value="left">שמאל</option><option value="right">ימין</option></select></label></div><div class="wizard-card"><h3>משטח עבודה</h3><label>גודל רשת<input id="gridSize" type="number" min="10" max="80" value="'+h.grid+'"></label><p class="wizard-note">לאחר יצירת האולם יהיה אפשר להזיז, לשנות ולהוסיף אזורים באופן חופשי.</p></div></div>';
+ if(wizardStep===1)$('#wizardBody').innerHTML='<div class="wizard-grid"><div class="wizard-card"><h3>מבנה התחלתי</h3><label>מספר טורים<input id="columns" type="number" min="1" max="99" value="'+h.columns+'"></label><label>מקומות בכל טור<input id="places" type="number" min="1" max="999" value="'+h.placesPerColumn+'"></label></div><div class="wizard-card"><h3>מרווח</h3><label>שטח בין הטורים<input id="gap" type="number" min="0" max="400" value="'+h.gap+'"></label><p class="wizard-note">המרווח הוא חזותי בלבד. מעבר רחב או צר אינו יוצר מספר טור נוסף ואינו משנה את המספור.</p></div></div>';
+ if(wizardStep===2)$('#wizardBody').innerHTML='<div class="wizard-card"><h3>כלל המספור הקבוע</h3><p class="wizard-note">הטורים נספרים לפי המיקום הפיזי שלהם <b>משמאל לימין</b>. המרחק ביניהם אינו משנה דבר.</p><div class="number-example">Column 1000 → 1001, 1002, 1003...<br>Column 2000 → 2001, 2002, 2003...<br>Column 3000 → 3001, 3002, 3003...</div><p class="wizard-note">גם אם יש מעבר גדול בין 2000 ל-3000, הטור הבא נשאר 3000.</p></div>';
+ if(wizardStep===3)$('#wizardBody').innerHTML='<div class="wizard-card"><h3>מוכן ליצירה</h3><p>שם: <b>'+escapeHtml(h.name)+'</b></p><p>'+h.columns+' טורים · '+h.placesPerColumn+' מקומות בטור · '+(h.columns*h.placesPerColumn)+' מקומות בסך הכול</p><p class="wizard-note">לאחר היצירה תוכל להמשיך לעריכת המבנה במפה. המספור יחושב מחדש משמאל לימין לפי הטורים.</p></div>';
+}
+function wizardSaveStep(){const h=state.hall;if(wizardStep===0){h.name=$('#hallName').value||'אולם חדש';h.grid=+$('\#gridSize').value||24;h.front=$('#front').value}if(wizardStep===1){h.columns=Math.max(1,+$('#columns').value||1);h.placesPerColumn=Math.max(1,+$('#places').value||1);h.gap=Math.max(0,+$('#gap').value||0)}}
+$('#openWizard').onclick=()=>{$('#wizard').classList.remove('hidden');wizardStep=0;wizardRender()};$('#wizardClose').onclick=()=>$('#wizard').classList.add('hidden');$('#wizardBack').onclick=()=>{wizardSaveStep();wizardStep=Math.max(0,wizardStep-1);wizardRender()};$('#wizardNext').onclick=()=>{wizardSaveStep();if(wizardStep<3){wizardStep++;wizardRender()}else{buildFromWizard();$('#wizard').classList.add('hidden');$('#status').textContent='האולם נוצר — המספור חושב משמאל לימין'}};wizardRender();
+buildDemo();renumberColumns();render();setTimeout(()=>$('#fit').click(),0);
