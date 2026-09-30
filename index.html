@@ -1,11 +1,39 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head><body>
 <div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span>בונה אולם חזותי</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
 <main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><button id="undo" class="mode-build-only">↩ ביטול</button></div>
-<div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button></div><div class="toolbar" id="tools"><button class="tool active" data-tool="draw">📐 שרטוט</button><button class="tool" data-tool="move">🖐️ הזזה</button><button class="tool" data-tool="erase">🧽 מחיקה</button><span class="sep"></span><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button></div>
+<div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button></div>
+<div class="toolbar" id="tools">
+  <button class="tool active" data-tool="draw">📐 שרטוט</button><button class="tool" data-tool="move">🖐️ הזזה</button><button class="tool" data-tool="erase">🧽 מחיקה</button><span class="sep"></span>
+  <div class="assign-toolbar mode-assign-only hidden">
+    <label>מצב<select id="seatStatusFilter"><option value="all">הכל</option><option value="available">פנויים</option><option value="assigned">משובצים</option><option value="blocked">חסומים</option></select></label>
+    <label>קבוצה<select id="groupFilter"><option value="all">כל הקבוצות</option></select></label>
+    <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
+    <button id="clearMapFilters">נקה סינון</button>
+  </div>
+  <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
+</div>
+<div id="mapLegend" class="map-legend hidden">
+  <span><i class="legend-swatch available"></i>פנוי</span>
+  <span><i class="legend-swatch assigned"></i>משובץ</span>
+  <span><i class="legend-swatch blocked"></i>חסום</span>
+  <span><i class="legend-swatch selected"></i>נבחר</span>
+</div>
 <div id="viewport"><div id="seatTooltip" class="seat-tooltip hidden"></div><div id="scrollExtent" aria-hidden="true"></div><canvas id="gridCanvas" aria-hidden="true"></canvas><div id="canvas"><div id="planGrid"></div><div id="rubber"></div><div id="dragTip"></div><div id="seatLayer"></div></div></div>
 <div class="hint" id="hint">📐 גרור מלבן על שטח ריק כדי ליצור אזור. כדי ליצור צורת ר׳/ח׳ — בחר אזור ושרטט מלבן נוסף שמתחבר אליו.</div></section>
 <aside><div class="side-head"><div><h2 id="panelTitle">בונה האולם</h2><p id="panelSubtitle">בחר כלי והתחל לשרטט</p></div></div>
-<div class="stats"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
+<div class="stats mode-build-only"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
+<section class="card assignment-summary mode-assign-only hidden" id="assignmentSummary">
+  <h3>תמונת מצב</h3>
+  <div class="summary-grid">
+    <div><b id="assignTotalSeats">0</b><span>מקומות</span></div>
+    <div><b id="assignOccupied">0</b><span>משובצים</span></div>
+    <div><b id="assignAvailable">0</b><span>פנויים</span></div>
+    <div><b id="assignBlocked">0</b><span>חסומים</span></div>
+    <div><b id="assignPeople">0</b><span>משתתפים</span></div>
+    <div><b id="assignUnassigned">0</b><span>ממתינים</span></div>
+    <div><b id="assignGroups">0</b><span>קבוצות</span></div>
+  </div>
+</section>
 <section class="card" id="selection"><h3>איך עובדים?</h3><p>שרטוט יוצר אזור. לחיצה על אזור בוחרת אותו. לאחר הבחירה אפשר להמשיך לשרטט ממנו, להזיז אותו או למחוק חלקים ממנו.</p></section>
 <section class="card mode-build-only"><h3>סוג אזור חדש</h3><select id="newType"><option value="chair">כיסא</option><option value="stage">במה</option><option value="aisle">מעבר</option><option value="empty">שטח ריק</option><option value="blocked">מקום שא״א לשבת</option><option value="benches">ספסלים</option></select><label>שם<input id="newName" value="אזור חדש"></label></section>
 <section class="card mode-build-only"><h3>רשת</h3><div class="edit-grid"><label>רוחב הרשת<input id="gridWidth" type="number" min="10" max="200" value="40"></label><label>גובה הרשת<input id="gridHeight" type="number" min="10" max="200" value="28"></label></div><p>גודל המשבצת נשאר קבוע. ההגדרה משנה את מספר המשבצות במשטח העבודה.</p></section><section class="card mode-build-only"><h3>שמירה</h3><p id="saveState">נשמר אוטומטית בדפדפן.</p></section>
