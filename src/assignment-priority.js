@@ -20,17 +20,29 @@ function stageFrontDepth(seat,areas){
   return Math.min(...stageYs.map(y=>Math.abs(seat.cell.y-y)));
 }
 export function seatPriorityParts(seat,hall,areas){
-  return {front:stageFrontDepth(seat,areas),center:Math.abs(seat.cell.x-seatingCenterX(hall,areas))};
+  const front=stageFrontDepth(seat,areas);
+  const center=Math.abs(seat.cell.x-seatingCenterX(hall,areas));
+  return {front,center,total:front+center};
+}
+export function seatPriorityScore(seat,hall,areas){
+  return seatPriorityParts(seat,hall,areas).total;
 }
 export function compareSeatPriority(a,b,hall,areas){
   const pa=seatPriorityParts(a,hall,areas),pb=seatPriorityParts(b,hall,areas);
-  return pa.front-pb.front||pa.center-pb.center||a.cell.x-b.cell.x||a.cell.y-b.cell.y;
+  return pa.total-pb.total||pa.front-pb.front||pa.center-pb.center||a.cell.x-b.cell.x||a.cell.y-b.cell.y;
 }
 export function windowPriority(seats,hall,areas){
-  return seats.reduce((acc,s)=>{const p=seatPriorityParts(s,hall,areas);acc.worstFront=Math.max(acc.worstFront,p.front);acc.front+=p.front;acc.center+=p.center;return acc},{worstFront:0,front:0,center:0});
+  return seats.reduce((acc,s)=>{
+    const p=seatPriorityParts(s,hall,areas);
+    acc.total+=p.total;
+    acc.worst=Math.max(acc.worst,p.total);
+    acc.front+=p.front;
+    acc.center+=p.center;
+    return acc;
+  },{total:0,worst:0,front:0,center:0});
 }
 export function compareWindowPriority(a,b){
-  return a.worstFront-b.worstFront||a.front-b.front||a.center-b.center;
+  return a.total-b.total||a.worst-b.worst||a.front-b.front||a.center-b.center;
 }
 export function horizontalSeatWindows(seats,count){
   if(count<=0)return [];
