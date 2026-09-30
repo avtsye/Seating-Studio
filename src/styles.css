@@ -6,3 +6,6 @@ aside.assign-aside #selection{flex:0 0 auto}
 aside.assign-aside #peopleCard{display:flex;flex-direction:column;min-height:0;flex:1}
 aside.assign-aside .people-list{max-height:none;min-height:120px;flex:1}
 .workspace.compact-mode #viewport{min-height:0}
+
+.shape-cell.blocked-seat{background:#050505!important;border-color:#151515!important;box-shadow:inset 0 0 0 1px #000!important}
+.seat-dot.blocked{background:#050505!important;border-color:#4b5563!important;color:#f8fafc!important;pointer-events:none!important}
