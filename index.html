@@ -7,6 +7,7 @@
   <div class="assign-toolbar mode-assign-only hidden">
     <label>מצב<select id="seatStatusFilter"><option value="all">הכל</option><option value="available">פנויים</option><option value="assigned">משובצים</option><option value="blocked">חסומים</option></select></label>
     <label>קבוצה<select id="groupFilter"><option value="all">כל הקבוצות</option></select></label>
+    <label>אזור<select id="areaFilter"><option value="all">כל האזורים</option></select></label>
     <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
     <button id="clearMapFilters">נקה סינון</button>
   </div>
@@ -42,6 +43,10 @@
   <p>קבוצה עם מספר עדיפות נמוך יותר תקבל קודם את המקומות הטובים יותר. אפשר לבחור "ללא עדיפות".</p>
   <div id="groupPriorityList" class="group-priority-list"></div>
 </section>
+<section class="card mode-assign-only hidden" id="areaSummaryCard">
+  <h3>אזורים באולם</h3>
+  <div id="areaSummaryList" class="area-summary-list"></div>
+</section>
 <section class="card mode-assign-only hidden" id="peopleCard">
   <h3>רשימת משתתפים</h3>
   <input id="csvInput" type="file" accept=".csv,text/csv" hidden>
@@ -50,6 +55,10 @@
   <div class="assign-actions"><button id="autoAssign">שיבוץ אוטומטי</button><button id="clearAssignments">נקה שיבוץ</button></div>
   <input id="peopleSearch" type="search" placeholder="חיפוש שם או קבוצה">
   <div id="peopleList" class="people-list"></div>
+</section>
+<section class="mode-assign-only hidden assignment-primary" id="assignmentPrimary">
+  <button id="autoAssignPrimary">⚡ שיבוץ אוטומטי לפי העדיפויות</button>
+  <span>קדימה קודם, ובאותה רמה — המרכז עדיף</span>
 </section>
 <section class="card mode-result-only hidden" id="resultInfo">
   <h3>תוצאה</h3>
