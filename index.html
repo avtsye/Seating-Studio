@@ -11,6 +11,12 @@
     <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
     <button id="clearMapFilters">נקה סינון</button>
   </div>
+  <div class="result-toolbar mode-result-only hidden">
+    <label>קבוצה<select id="resultGroupFilter"><option value="all">כל הקבוצות</option></select></label>
+    <label>תצוגה<select id="resultStatusFilter"><option value="all">כל המקומות</option><option value="assigned">משובצים בלבד</option><option value="available">פנויים בלבד</option><option value="blocked">חסומים בלבד</option></select></label>
+    <input id="resultSearch" type="search" placeholder="חיפוש משתתף / קבוצה / מקום">
+    <button id="clearResultFilters">נקה</button>
+  </div>
   <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
 </div>
 <div id="mapLegend" class="map-legend hidden">
@@ -68,5 +74,17 @@
     <div><b id="unassignedCount">0</b><span>לא שובצו</span></div>
     <div><b id="blockedCount">0</b><span>חסומים</span></div>
   </div>
+  <div class="result-actions">
+    <button id="exportResultCsv">ייצוא CSV</button>
+    <button id="printResult">הדפסה</button>
+  </div>
+</section>
+<section class="card mode-result-only hidden" id="resultPeopleCard">
+  <h3>משתתפים בתוצאה</h3>
+  <div id="resultPeopleList" class="result-people-list"></div>
+</section>
+<section class="card mode-result-only hidden" id="unassignedCard">
+  <h3>טרם שובצו</h3>
+  <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
 <script type="module" src="src/app.js"></script></body></html>
