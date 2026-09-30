@@ -1,8 +1,30 @@
 <!doctype html>
-<html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head>
-<body><div id="app">
-<header class="topbar"><div><strong>Seating Studio</strong><small> מפת אולם ושיבוץ</small></div><nav><button class="active" data-mode="map">מפה</button><button data-mode="people">אנשים ושיבוץ</button><button data-mode="final">מפה סופית</button></nav></header>
-<main><section class="workspace"><div class="toolbar"><button id="fit">התאם למסך</button><button id="zoomIn">＋</button><span id="zoomLabel">100%</span><button id="zoomOut">−</button><input id="search" placeholder="חיפוש אדם או מקום"></div>
-<div id="viewport"><div id="canvas"></div></div></section>
-<aside><h2>כלי מפה ושיבוץ</h2><div class="notice">זהו שלד הדור החדש. המפה נשארת אותה מפה בכל מצבי העבודה.</div><div class="stats"><div><b id="seatCount">0</b><span>מקומות</span></div><div><b id="assignedCount">0</b><span>משובצים</span></div></div><section id="selection"><h3>בחירה</h3><p>לחץ על מקום כדי לראות ולערוך אותו.</p></section><button class="primary" id="autoAssign">עבור לשיבוץ אוטומטי</button></aside>
-</main></div><script type="module" src="src/app.js"></script></body></html>
+<html lang="he" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand"><strong>Seating Studio</strong><span>ניהול ושיבוץ אולם</span></div>
+  <nav class="modes"><button class="active" data-mode="layout">בניית האולם</button><button data-mode="assign">שיבוץ</button><button data-mode="final">תוצאה</button></nav>
+  <div class="top-actions"><button id="save">שמור</button><button id="load">טען</button><input id="fileInput" type="file" accept=".json" hidden></div>
+</header>
+<main>
+ <section class="workspace">
+  <div class="toolbar">
+   <div class="tool-group"><button class="tool active" data-tool="select">בחירה</button><button class="tool" data-tool="seat">＋ מקום</button><button class="tool" data-tool="row">＋ שורה</button><button class="tool" data-tool="aisle">מעבר</button></div>
+   <div class="grow"></div><input id="search" placeholder="חיפוש מקום או משובץ">
+   <button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
+  </div>
+  <div id="viewport"><div id="canvas"><div class="stage">במה</div><div id="seatLayer"></div></div></div>
+  <div class="statusbar"><span id="status">מוכן</span><span>גלגלת: זום · גרירה: הזזת מפה</span></div>
+ </section>
+ <aside>
+  <div class="side-head"><div><h2 id="panelTitle">האולם</h2><p id="panelSubtitle">סקירה ועריכה</p></div><button id="closeSelection">×</button></div>
+  <div class="stats"><div><b id="seatCount">0</b><span>מקומות</span></div><div><b id="assignedCount">0</b><span>משובצים</span></div><div><b id="freeCount">0</b><span>פנויים</span></div></div>
+  <section id="selection" class="card"><h3>בחר מקום במפה</h3><p>לחיצה על מקום תפתח כאן את פרטי המקום והמשובץ.</p></section>
+  <section class="card legend"><h3>מקרא</h3><p><i class="dot free"></i> פנוי <i class="dot assigned"></i> משובץ <i class="dot locked"></i> נעול</p></section>
+  <button class="primary" id="autoAssign">שיבוץ אוטומטי</button>
+ </aside>
+</main></div>
+<script type="module" src="src/app.js"></script>
+</body></html>
