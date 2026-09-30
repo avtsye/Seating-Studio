@@ -48,9 +48,14 @@
 <section class="card mode-assign-only hidden bulk-selection-card" id="bulkSelectionCard">
   <h3>בחירה מרובה</h3>
   <p><b id="selectedSeatsCount">0</b> מקומות נבחרו. Ctrl/⌘ + לחיצה מוסיפים או מסירים מקום מהבחירה.</p>
+  <label class="bulk-group-label">קבוצה
+    <select id="bulkGroupSelect"><option value="">בחר קבוצה</option></select>
+  </label>
   <div class="bulk-actions">
-    <button id="clearSeatSelection">נקה בחירה</button>
+    <button id="assignGroupToSelection">שבץ קבוצה בבחירה</button>
+    <button id="moveGroupToSelection">העבר קבוצה לבחירה</button>
     <button id="clearSelectedAssignments">פנה משובצים שנבחרו</button>
+    <button id="clearSeatSelection">נקה בחירה</button>
   </div>
 </section>
 <section class="card mode-assign-only hidden" id="groupPriorityCard">
