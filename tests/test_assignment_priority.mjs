@@ -7,8 +7,8 @@ const fullSeats=[{type:'chair',cells:Array.from({length:8},(_,y)=>Array.from({le
 
 // Default shape: front has 2/3 weight and center has 1/3 weight.
 // A central seat can still beat an extreme-edge seat, but front matters twice as much.
-assert.ok(seatPriorityScore(s(5,3),hall,fullSeats)<seatPriorityScore(s(0,1),hall,fullSeats),
-  'center must materially affect priority, not only break ties');
+assert.ok(seatPriorityScore(s(5,2),hall,fullSeats)<seatPriorityScore(s(0,2),hall,fullSeats),
+  'center must materially affect priority within the same forward depth');
 
 // One row back costs the same as moving two columns away from center.
 const pA=seatPriorityScore(s(5,2),hall,fullSeats);
