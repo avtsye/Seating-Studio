@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {removeBlockedCells} from '../src/seat-overlays.js';
+import {removeBlockedCells,removeBlockedCell} from '../src/seat-overlays.js';
 
 const blocked=[{x:1,y:1},{x:2,y:2},{x:3,y:3}];
 assert.deepEqual(removeBlockedCells(blocked,[{x:2,y:2}]),[{x:1,y:1},{x:3,y:3}],
@@ -9,3 +9,10 @@ assert.deepEqual(removeBlockedCells(blocked,[{x:9,y:9}]),blocked,
 assert.deepEqual(removeBlockedCells(blocked,[{x:1,y:1},{x:3,y:3}]),[{x:2,y:2}],
   'drag erase must remove every blocked overlay it crosses');
 console.log('blocked-seat overlay tests passed');
+
+const physicalSeats=[{x:0,y:0},{x:1,y:0},{x:2,y:0}];
+const blockedOne=[{x:1,y:0}];
+assert.deepEqual(removeBlockedCell(blockedOne,{x:1,y:0}),[],
+  'unblocking must remove the blocked definition itself');
+assert.deepEqual(physicalSeats,[{x:0,y:0},{x:1,y:0},{x:2,y:0}],
+  'unblocking must leave the physical seat list unchanged');
