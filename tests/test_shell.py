@@ -4,7 +4,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class ShellTests(unittest.TestCase):
     def test_main_shell_contains_map_workspace(self):
         html=(ROOT/"index.html").read_text(encoding="utf-8")
-        for marker in ('id="viewport"','id="selection"','id="seatLayer"','id="fileInput"'): self.assertIn(marker,html)
+        for marker in ('id="viewport"','id="selection"','id="seatLayer"','id="fileInput"','id="wizard"','id="openWizard"'): self.assertIn(marker,html)
     def test_real_map_interactions_exist(self):
         js=(ROOT/"src"/"app.js").read_text(encoding="utf-8")
         for feature in ("onpointerdown","addEventListener('wheel'","JSON.stringify(state","fileInput","toggleLock"): self.assertIn(feature,js)
