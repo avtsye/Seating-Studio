@@ -1,25 +1,35 @@
 import assert from 'node:assert/strict';
-import {seatPriorityParts,compareSeatPriority,windowPriority,compareWindowPriority,horizontalSeatWindows} from '../src/assignment-priority.js';
+import {seatPriorityParts,seatPriorityScore,compareSeatPriority,windowPriority,compareWindowPriority,horizontalSeatWindows} from '../src/assignment-priority.js';
 
-const hall={gridWidth:40};
+const hall={gridWidth:12};
 const s=(x,y,block=1)=>({cell:{x,y},block});
+const fullSeats=[{type:'chair',cells:Array.from({length:8},(_,y)=>Array.from({length:12},(_,x)=>({x,y}))).flat()}];
 
-// No stage: top is front. Forward position is primary.
-assert.ok(compareSeatPriority(s(0,1),s(19,2),hall,[])<0,'front row must beat a more central seat one row behind');
-// Center uses the actual seating footprint, not unused grid margins.
-const offCenterSeats=[{type:'chair',cells:[{x:20,y:1},{x:21,y:1},{x:22,y:1},{x:23,y:1},{x:24,y:1}]}];
-assert.ok(compareSeatPriority(s(22,1),s(10,1),hall,offCenterSeats)<0,'center should follow the seating footprint center');
+// Default shape: front + distance from center. A central seat a little farther back
+// can be better than a very forward seat at the extreme edge.
+assert.ok(seatPriorityScore(s(5,3),hall,fullSeats)<seatPriorityScore(s(0,0),hall,fullSeats),
+  'center must materially affect priority, not only break ties');
 
-// A stage defines which side is front.
-const topStage=[{type:'stage',cells:[{x:0,y:0},{x:10,y:0}]},{type:'chair',cells:[{x:1,y:2},{x:2,y:3}]}];
+// Moving one step back has the same cost as moving one step away from center.
+const pA=seatPriorityScore(s(5,2),hall,fullSeats);
+const pB=seatPriorityScore(s(4,1),hall,fullSeats);
+assert.equal(pA,pB,'one row back and one column away from center should have equal cost');
+
+// Symmetry around the center.
+assert.equal(seatPriorityScore(s(4,2),hall,fullSeats),seatPriorityScore(s(7,2),hall,fullSeats),
+  'left and right positions at the same center distance should be equal');
+
+// Stage still defines which direction is "front".
+const topStage=[{type:'stage',cells:[{x:0,y:0},{x:11,y:0}]},...fullSeats];
 assert.ok(compareSeatPriority(s(5,1),s(5,3),hall,topStage)<0,'nearer to a top stage must be better');
-const bottomStage=[{type:'stage',cells:[{x:0,y:10},{x:10,y:10}]},{type:'chair',cells:[{x:1,y:7},{x:2,y:8}]}];
+const bottomStage=[{type:'stage',cells:[{x:0,y:10},{x:11,y:10}]},...fullSeats];
 assert.ok(compareSeatPriority(s(5,9),s(5,7),hall,bottomStage)<0,'nearer to a bottom stage must be better');
 
-// Group/window comparison: forward dominates center.
-const wFront=windowPriority([s(0,1),s(1,1)],hall,[]);
-const wBackCenter=windowPriority([s(19,2),s(20,2)],hall,[]);
-assert.ok(compareWindowPriority(wFront,wBackCenter)<0,'a group further forward must win even if another option is more central');
+// Group windows use the same combined front+center score.
+const centeredBack=windowPriority([s(5,2),s(6,2)],hall,fullSeats);
+const edgeFront=windowPriority([s(0,0),s(1,0)],hall,fullSeats);
+assert.ok(compareWindowPriority(centeredBack,edgeFront)<0,
+  'a centered group slightly farther back can beat an extreme-edge group at the front');
 
 // Windows must stay inside one physical row and cannot wrap at row boundaries.
 const seats=[s(0,1),s(1,1),s(2,1),s(0,2),s(1,2),s(2,2)];
@@ -28,7 +38,6 @@ assert.equal(wins.length,4,'two rows of three seats should produce four horizont
 assert.ok(wins.every(w=>w[0].cell.y===w[1].cell.y),'a group window must never cross rows');
 assert.ok(wins.every(w=>w[1].cell.x===w[0].cell.x+1),'group seats must be horizontally adjacent');
 
-// A blocked/missing seat breaks a run.
 const gapWins=horizontalSeatWindows([s(0,1),s(1,1),s(3,1),s(4,1)],3);
 assert.equal(gapWins.length,0,'a gap must prevent a false contiguous group window');
 
