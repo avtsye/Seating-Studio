@@ -1,6 +1,6 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head><body>
-<div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span>בונה אולם חזותי</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
-<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><button id="undo" class="mode-build-only">↩ ביטול</button></div>
+<div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span>בונה אולם חזותי</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="settingsButton">⚙ הגדרות</button><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
+<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
 <div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button></div>
 <div class="toolbar" id="tools">
   <button class="tool active" data-tool="draw">📐 שרטוט</button><button class="tool" data-tool="move">🖐️ הזזה</button><button class="tool" data-tool="erase">🧽 מחיקה</button><span class="sep"></span>
@@ -110,4 +110,42 @@
   <h3>טרם שובצו</h3>
   <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
+<dialog id="settingsDialog" class="settings-dialog">
+  <form method="dialog" class="settings-shell">
+    <div class="settings-head"><div><h2>הגדרות</h2><p>תצוגה, עדיפויות וקיצורי מקשים</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
+    <div class="settings-body">
+      <section class="settings-section">
+        <h3>תצוגה</h3>
+        <label class="setting-check"><input id="settingShowGrid" type="checkbox"> הצג רשת</label>
+        <label class="setting-check"><input id="settingShowAreaLabels" type="checkbox"> הצג שמות אזורים</label>
+        <label class="setting-check"><input id="settingShowSeatNumbers" type="checkbox"> הצג מספרי מקומות</label>
+        <label>גודל סימון מקום
+          <input id="settingSeatScale" type="range" min="0.75" max="1.5" step="0.05">
+          <span id="settingSeatScaleValue">100%</span>
+        </label>
+        <label>צעד זום
+          <select id="settingZoomStep"><option value="0.05">5%</option><option value="0.1">10%</option><option value="0.2">20%</option></select>
+        </label>
+      </section>
+      <section class="settings-section">
+        <h3>עדיפויות שיבוץ</h3>
+        <label>משקל קדימה<input id="settingFrontWeight" type="number" min="0" max="10" step="0.25"></label>
+        <label>משקל מרכז<input id="settingCenterWeight" type="number" min="0" max="10" step="0.25"></label>
+        <label>בונוס ליד מעבר / קיר<input id="settingEdgeBonus" type="number" min="0" max="10" step="0.25"></label>
+        <p class="muted">הניקוד הנמוך יותר מקבל עדיפות. שינוי הערכים ישפיע על השיבוץ האוטומטי הבא.</p>
+      </section>
+      <section class="settings-section shortcuts-section">
+        <h3>קיצורי מקשים</h3>
+        <div><kbd>Ctrl+A</kbd><span>בחר את כל המקומות המוצגים בשיבוץ</span></div>
+        <div><kbd>Ctrl+Z</kbd><span>ביטול פעולה</span></div>
+        <div><kbd>Ctrl+Y</kbd><span>חזרה על פעולה שבוטלה</span></div>
+        <div><kbd>Ctrl+Shift+Z</kbd><span>חזרה חלופית</span></div>
+        <div><kbd>Ctrl+0</kbd><span>התאם מפה למסך</span></div>
+        <div><kbd>Ctrl+,</kbd><span>פתח הגדרות</span></div>
+        <div><kbd>Esc</kbd><span>נקה בחירה / סגור הגדרות</span></div>
+      </section>
+    </div>
+    <div class="settings-actions"><button type="button" id="resetSettings">אפס הגדרות</button><button type="button" id="saveSettings" class="primary">שמור</button></div>
+  </form>
+</dialog>
 <script type="module" src="src/app.js"></script></body></html>
