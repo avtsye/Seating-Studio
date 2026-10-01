@@ -264,3 +264,6 @@ body.simple-mode #projectBreakdownCard,body.simple-mode #assignmentDiagnosticsCa
 body.simple-mode #assignSideTabs [data-assign-panel="priority"],body.simple-mode #assignSideTabs [data-assign-panel="history"],body.simple-mode #assignSideTabs [data-assign-panel="dashboard"]{display:none!important}
 
 @media(max-width:900px){.workflow-progress{grid-template-columns:1fr 1fr}.dashboard-stats{grid-template-columns:repeat(3,1fr)}.person-grid,.partial-assign-grid{grid-template-columns:1fr}.csv-mapping-fields{grid-template-columns:1fr 1fr}.wizard-grid{grid-template-columns:1fr 1fr}.breadcrumb-bar{display:none}}
+
+.seat-dot.view-structure.assigned{background:#293348!important;border-color:#72809a!important}.seat-dot.view-structure.assigned::after{display:none!important}
+.seat-dot.view-locked.lock-dim{opacity:.18;filter:grayscale(1)}.seat-dot.view-locked.locked-assignment{opacity:1!important;filter:none!important;box-shadow:inset 0 0 0 2px #facc15,0 0 0 1px #000!important}
