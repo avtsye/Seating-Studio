@@ -52,7 +52,10 @@
 </nav>
 <section id="linkedProjectCard" class="card linked-project-card mode-assign-only assign-panel hidden" data-panel="overview">
   <div><strong id="linkedProjectTitle">אולם יחיד</strong><span id="linkedProjectSummary">השיבוץ מתבצע באולם הנוכחי.</span></div>
-  <button id="autoAssignLinked" class="hidden">שבץ בכל האולמות לפי הסדר</button>
+  <div class="linked-project-actions">
+    <button id="configureHallRouting" class="hidden">חלוקת קבוצות לאולמות</button>
+    <button id="autoAssignLinked" class="hidden">שבץ בכל האולמות לפי הסדר</button>
+  </div>
 </section>
 <section id="assignWarning" class="assign-warning mode-assign-only assign-panel hidden" data-panel="overview"></section>
 <div class="stats mode-build-only"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
@@ -145,6 +148,21 @@
   <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
 <div id="exportProgress" class="export-progress hidden" role="status" aria-live="polite"><span class="busy-spinner"></span><div><strong id="exportProgressTitle">מכין תמונה…</strong><small id="exportProgressText">0%</small></div></div>
+<dialog id="hallRoutingDialog" class="routing-dialog">
+  <form method="dialog" class="routing-shell">
+    <div class="settings-head"><div><h2>חלוקת קבוצות בין אולמות</h2><p>בחר כיצד השיבוץ האוטומטי יחלק את המשתתפים בין האולמות המקושרים.</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
+    <div class="routing-mode-options">
+      <label><input type="radio" name="hallRoutingMode" value="cascade" checked><span><strong>כל הקבוצות בכל האולמות</strong><small>המערכת מתחילה באולם הראשון, ומעבירה את מי שלא קיבל מקום לאולם הבא.</small></span></label>
+      <label><input type="radio" name="hallRoutingMode" value="by-group"><span><strong>קבוצה לאולם מסוים</strong><small>לכל קבוצה בוחרים אולם. השיבוץ האוטומטי ישבץ אותה רק באולם שנבחר.</small></span></label>
+    </div>
+    <section id="groupHallRoutingSection" class="group-hall-routing hidden">
+      <div class="routing-table-head"><strong>קבוצה</strong><strong>אולם יעד</strong></div>
+      <div id="groupHallRoutingList"></div>
+      <p class="muted">משתתפים ללא קבוצה ימשיכו לעבור בין האולמות לפי הסדר.</p>
+    </section>
+    <div class="settings-actions"><button value="cancel">ביטול</button><button type="button" id="saveHallRouting" class="primary">שמור חלוקה</button></div>
+  </form>
+</dialog>
 <dialog id="autoAssignDialog" class="auto-assign-dialog">
   <form method="dialog" class="auto-assign-shell">
     <div class="settings-head"><div><h2>שיבוץ אוטומטי</h2><p id="autoAssignDialogText">כבר קיימים שיבוצים. מה לעשות איתם?</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
