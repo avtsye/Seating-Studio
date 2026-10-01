@@ -15,7 +15,7 @@ function watch(page,label){
   return errors;
 }
 await waitForServer();
-const browser=await chromium.launch({headless:true});
+const browser=await chromium.launch({headless:true,channel:'chrome'});
 try{
   const context=await browser.newContext({viewport:{width:1440,height:900}});
   await context.addInitScript(()=>{
