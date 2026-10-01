@@ -118,3 +118,15 @@ const normalizedAdvanced=normalizeWorkspace({
 assert.deepEqual(normalizedAdvanced.projects[0].groupLocks,['G']);
 assert.deepEqual(normalizedAdvanced.projects[0].halls[0].data.areaLocks,['A']);
 assert.equal(normalizedAdvanced.projects[0].halls[0].data.assignmentLocks['1,1'],true);
+
+
+const scenarioWs=normalizeWorkspace({
+  activeProjectId:'p',
+  projects:[{
+    id:'p',activeHallId:'h',people:[],groupCatalog:[],
+    scenarios:[{id:'s1',name:'תרחיש',at:1,project:{id:'nested',halls:[]}}],
+    halls:[{id:'h',data:{assignments:{}}}]
+  }]
+});
+assert.equal(scenarioWs.projects[0].scenarios.length,1,'workspace keeps saved scenarios');
+assert.equal(scenarioWs.projects[0].scenarios[0].name,'תרחיש');
