@@ -1,6 +1,6 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head><body>
 <div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span id="projectTitle">פרויקט שיבוץ</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="settingsButton">⚙ הגדרות</button><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
-<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
+<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><span id="historyStatus" class="history-status">אין פעולות לביטול</span><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
 <div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button></div>
 <div class="toolbar" id="tools">
   <button class="tool active" data-tool="draw">📐 שרטוט</button><button class="tool" data-tool="move">🖐️ הזזה</button><button class="tool" data-tool="erase">🧽 מחיקה</button><span class="sep"></span>
@@ -27,8 +27,8 @@
   <span><i class="legend-swatch selected"></i>נבחר</span>
   <div id="groupLegend" class="group-legend"></div>
 </div>
-<div id="viewport"><div id="seatTooltip" class="seat-tooltip hidden"></div><div id="scrollExtent" aria-hidden="true"></div><canvas id="gridCanvas" aria-hidden="true"></canvas><div id="canvas"><div id="planGrid"></div><div id="rubber"></div><div id="dragTip"></div><div id="seatLayer"></div></div></div>
-<div class="hint" id="hint">📐 גרור מלבן על שטח ריק כדי ליצור אזור. כדי ליצור צורת ר׳/ח׳ — בחר אזור ושרטט מלבן נוסף שמתחבר אליו.</div></section>
+<section id="printHeader" class="print-only"></section><div id="viewport"><div id="seatTooltip" class="seat-tooltip hidden"></div><div id="scrollExtent" aria-hidden="true"></div><canvas id="gridCanvas" aria-hidden="true"></canvas><div id="canvas"><div id="planGrid"></div><div id="rubber"></div><div id="dragTip"></div><div id="seatLayer"></div></div></div>
+<div class="hint" id="hint">📐 גרור מלבן על שטח ריק כדי ליצור אזור. כדי ליצור צורת ר׳/ח׳ — בחר אזור ושרטט מלבן נוסף שמתחבר אליו.</div><section id="printRoster" class="print-only"></section></section>
 <aside><div class="side-head"><div><h2 id="panelTitle">בונה האולם</h2><p id="panelSubtitle">בחר כלי והתחל לשרטט</p></div></div>
 <div class="stats mode-build-only"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
 <section class="card assignment-summary mode-assign-only hidden" id="assignmentSummary">
@@ -136,6 +136,14 @@
         <label>צעד זום
           <select id="settingZoomStep"><option value="0.05">5%</option><option value="0.1">10%</option><option value="0.2">20%</option></select>
         </label>
+      </section>
+      <section class="settings-section">
+        <h3>מספור מקומות</h3>
+        <label>קפיצה בין בלוקים<input id="settingNumberBlockStep" type="number" min="10" max="100000" step="10"></label>
+        <label>מספר התחלתי בתוך בלוק<input id="settingNumberSeatStart" type="number" min="0" max="9999" step="1"></label>
+        <label>כיוון מספור בשורה<select id="settingNumberDirection"><option value="ltr">משמאל לימין</option><option value="rtl">מימין לשמאל</option></select></label>
+        <label>סדר הבלוקים<select id="settingBlockOrder"><option value="ltr">משמאל לימין</option><option value="rtl">מימין לשמאל</option></select></label>
+        <p class="muted">ברירת המחדל נשארת 1001, 1002… ואז 2001, 2002… שינוי המספור לא מזיז שיבוצים בין הכיסאות.</p>
       </section>
       <section class="settings-section">
         <h3>עדיפויות שיבוץ</h3>
