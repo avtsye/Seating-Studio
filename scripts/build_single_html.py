@@ -56,6 +56,9 @@ def main():
         raise SystemExit("Unresolved imports remain in app.js")
 
     bundle = "\n\n".join(wrapped) + "\n\n" + app
+    # Prevent JavaScript string literals containing </script> from terminating
+    # the single inline module when parsed as HTML.
+    bundle = re.sub(r"</script>", r"<\\/script>", bundle, flags=re.I)
     html = re.sub(
         r'<link\s+rel="stylesheet"\s+href="src/styles\.css"\s*/?>',
         "<style>\n" + css + "\n</style>",
