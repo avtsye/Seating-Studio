@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls} from '../src/workspace.js';
+import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups} from '../src/workspace.js';
 
 const project={
   id:'p1',
@@ -18,3 +18,14 @@ const ws=normalizeWorkspace({projects:[project],activeProjectId:'missing'});
 assert.equal(ws.activeProjectId,'p1');
 assert.equal(ws.projects[0].activeHallId,'h1');
 console.log('workspace tests passed');
+
+const routed={
+  routingMode:'by-group',
+  people:[{id:'1',group:'A'},{id:'2',group:'B'},{id:'3',group:'C'}],
+  halls:[{id:'h1'},{id:'h2'}],
+  groupHallRules:{A:'h1',B:'h2',C:'missing'}
+};
+normalizeGroupRouting(routed);
+assert.equal(routed.routingMode,'by-group','group routing mode must be preserved');
+assert.deepEqual([...groupsForHall(routed,'h1')],['A'],'hall routing must select only mapped groups');
+assert.deepEqual(unroutedGroups(routed),['C'],'invalid or missing hall mappings must remain visibly unrouted');
