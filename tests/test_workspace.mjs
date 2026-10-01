@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups} from '../src/workspace.js';
+import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups,personAllowedInHall,eligiblePeopleForHall} from '../src/workspace.js';
 
 const project={
   id:'p1',
