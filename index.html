@@ -176,12 +176,12 @@
     <div class="settings-head"><div><h2>חלוקת קבוצות בין אולמות</h2><p>בחר כיצד השיבוץ האוטומטי יחלק את המשתתפים בין האולמות המקושרים.</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
     <div class="routing-mode-options">
       <label><input type="radio" name="hallRoutingMode" value="cascade" checked><span><strong>כל הקבוצות בכל האולמות</strong><small>המערכת מתחילה באולם הראשון, ומעבירה את מי שלא קיבל מקום לאולם הבא.</small></span></label>
-      <label><input type="radio" name="hallRoutingMode" value="by-group"><span><strong>קבוצה לאולם מסוים</strong><small>לכל קבוצה בוחרים אולם. השיבוץ האוטומטי ישבץ אותה רק באולם שנבחר.</small></span></label>
+      <label><input type="radio" name="hallRoutingMode" value="by-group"><span><strong>חלוקה לפי קבוצה</strong><small>לכל קבוצה בוחרים אולם אחד, או פיצול חובה בין כל האולמות.</small></span></label>
     </div>
     <section id="groupHallRoutingSection" class="group-hall-routing hidden">
       <div class="routing-table-head"><strong>קבוצה</strong><strong>אולם יעד</strong></div>
       <div id="groupHallRoutingList"></div>
-      <p class="muted">משתתפים ללא קבוצה ימשיכו לעבור בין האולמות לפי הסדר.</p>
+      <p class="muted">בחירה ב„פצל בין כל האולמות” מחלקת את חברי הקבוצה בין כל האולמות בחלקים שווים ככל האפשר. השארית ניתנת לאולמות הראשונים לפי סדר האולמות. בתוך כל אולם נשמרות עדיפויות המקומות הרגילות. משתתפים ללא קבוצה ממשיכים לפי הסדר.</p>
     </section>
     <div class="settings-actions"><button value="cancel">ביטול</button><button type="button" id="saveHallRouting" class="primary">שמור חלוקה</button></div>
   </form>
