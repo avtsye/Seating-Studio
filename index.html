@@ -179,8 +179,16 @@
       <label><input type="radio" name="hallRoutingMode" value="by-group"><span><strong>חלוקה לפי קבוצה</strong><small>לכל קבוצה בוחרים אולם אחד, או פיצול חובה בין כל האולמות.</small></span></label>
     </div>
     <section id="groupHallRoutingSection" class="group-hall-routing hidden">
+      <div class="hall-order-section">
+        <div><strong>סדר האולמות</strong><small>הסדר קובע מי ראשון בשרשרת ומי מקבל את השארית בפיצול.</small></div>
+        <div id="hallOrderList" class="hall-order-list"></div>
+      </div>
       <div class="routing-table-head"><strong>קבוצה</strong><strong>אולם יעד</strong></div>
       <div id="groupHallRoutingList"></div>
+      <section id="splitPreview" class="split-preview hidden">
+        <strong>תצוגה מקדימה של הפיצול</strong>
+        <div id="splitPreviewList"></div>
+      </section>
       <p class="muted">בחירה ב„פצל בין כל האולמות” מחלקת את חברי הקבוצה בין כל האולמות בחלקים שווים ככל האפשר. השארית ניתנת לאולמות הראשונים לפי סדר האולמות. בתוך כל אולם נשמרות עדיפויות המקומות הרגילות. משתתפים ללא קבוצה ממשיכים לפי הסדר.</p>
     </section>
     <div class="settings-actions"><button value="cancel">ביטול</button><button type="button" id="saveHallRouting" class="primary">שמור חלוקה</button></div>
