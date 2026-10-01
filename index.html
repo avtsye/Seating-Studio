@@ -16,7 +16,7 @@
     <label>מצב<select id="seatStatusFilter"><option value="all">הכל</option><option value="available">פנויים</option><option value="assigned">משובצים</option><option value="blocked">חסומים</option></select></label>
     <label>קבוצה<select id="groupFilter"><option value="all">כל הקבוצות</option></select></label>
     <label>אזור<select id="areaFilter"><option value="all">כל האזורים</option></select></label>
-    <label>תצוגת מפה<select id="mapViewMode"><option value="groups">קבוצות</option><option value="status">מצב שיבוץ</option><option value="priority">עדיפות מקום</option></select></label>
+    <label>תצוגת מפה<select id="mapViewMode"><option value="groups">קבוצות</option><option value="status">מצב שיבוץ</option><option value="priority">עדיפות מקום</option><option value="issues">חריגות</option></select></label>
     <div class="map-search-box">
       <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
       <button id="mapSearchPrev" title="תוצאה קודמת">‹</button>
@@ -78,6 +78,12 @@
     <button data-summary-panel="groups"><b id="assignGroups">0</b><span>קבוצות</span></button>
   </div>
 </section>
+<section class="card mode-assign-only assign-panel hidden project-breakdown-card" data-panel="overview" id="projectBreakdownCard">
+  <div class="breakdown-head"><div><h3>סטטיסטיקה מפורטת</h3><p>תמונה מהירה לפי אולם, קבוצה או אזור.</p></div>
+    <select id="breakdownMode"><option value="hall">לפי אולם</option><option value="group">לפי קבוצה</option><option value="area">לפי אזור</option></select>
+  </div>
+  <div id="projectBreakdownList" class="project-breakdown-list"></div>
+</section>
 <section class="card mode-assign-only assign-panel hidden diagnostics-card" data-panel="overview" id="assignmentDiagnosticsCard">
   <div class="diagnostics-head"><div><h3>בדיקת שיבוץ</h3><p>איתור מהיר של חריגות וחוסרים בפרויקט.</p></div><button id="nextAssignmentIssue">עבור לבעיה הבאה</button></div>
   <div class="diagnostics-grid">
@@ -121,6 +127,11 @@
 <section class="card mode-assign-only assign-panel hidden" data-panel="areas" id="areaSummaryCard">
   <h3>אזורים באולם</h3>
   <div id="areaSummaryList" class="area-summary-list"></div>
+</section>
+<section class="card mode-assign-only assign-panel hidden" data-panel="areas" id="blockSummaryCard">
+  <h3>בלוקים באולם</h3>
+  <p>בחר בלוק שלם או שנה את מצב החסימה שלו בלי לסמן מקום־מקום.</p>
+  <div id="blockSummaryList" class="block-summary-list"></div>
 </section>
 <section class="card mode-assign-only assign-panel hidden" data-panel="people" id="peopleCard">
   <h3>רשימת משתתפים</h3>
