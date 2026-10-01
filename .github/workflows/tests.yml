@@ -12,5 +12,6 @@ jobs:
           python-version: "3.13"
       - run: node --check src/app.js
       - run: node tests/test_assignment_priority.mjs
+      - run: node tests/test_assignment_store.mjs
       - run: node tests/test_seat_overlays.mjs
       - run: python -m unittest discover -s tests -p "test_*.py" -v
