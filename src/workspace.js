@@ -107,3 +107,16 @@ export function unroutedGroups(project){
   const groups=[...new Set((project.people||[]).map(p=>p.group).filter(Boolean))];
   return groups.filter(g=>!project.groupHallRules[g]);
 }
+
+export function personAllowedInHall(project,hallId,person){
+  if(!project||!person)return false;
+  normalizeGroupRouting(project);
+  if(project.routingMode!=='by-group'||!person.group)return true;
+  const rule=project.groupHallRules?.[person.group];
+  return rule==='__all__'||rule===hallId;
+}
+
+export function eligiblePeopleForHall(project,hallId,excludedIds=new Set()){
+  const excluded=excludedIds instanceof Set?excludedIds:new Set(excludedIds||[]);
+  return (project?.people||[]).filter(person=>!excluded.has(person.id)&&personAllowedInHall(project,hallId,person));
+}
