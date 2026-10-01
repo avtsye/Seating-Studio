@@ -7,6 +7,7 @@ export function hallSnapshot(state){
     hall:copy(state.hall||{}),
     areas:copy(state.areas||[]),
     assignments:copy(state.assignments||{}),
+    assignmentLocks:copy(state.assignmentLocks||{}),
     blockedSeats:copy(state.blockedSeats||[])
   };
 }
@@ -19,6 +20,9 @@ export function sharedProjectSnapshot(state){
     groupPriorities:copy(state.groupPriorities||{}),
     groupColors:copy(state.groupColors||{}),
     groupCatalog:copy(state.groupCatalog||[]),
+    groupLocks:copy(state.groupLocks||[]),
+    savedViews:copy(state.savedViews||[]),
+    activityLog:copy(state.activityLog||[]),
     settings:copy(state.settings||{})
   };
 }
@@ -65,7 +69,14 @@ export function normalizeWorkspace(raw){
     p.groupPriorities=p.groupPriorities&&typeof p.groupPriorities==='object'?p.groupPriorities:{};
     p.groupColors=p.groupColors&&typeof p.groupColors==='object'?p.groupColors:{};
     p.groupCatalog=Array.isArray(p.groupCatalog)?[...new Set(p.groupCatalog.filter(Boolean))]:[];
+    p.groupLocks=Array.isArray(p.groupLocks)?[...new Set(p.groupLocks.filter(Boolean))]:[];
+    p.savedViews=Array.isArray(p.savedViews)?p.savedViews:[];
+    p.activityLog=Array.isArray(p.activityLog)?p.activityLog.slice(-250):[];
     p.settings=p.settings&&typeof p.settings==='object'?p.settings:{};
+    for(const hall of p.halls){
+      hall.data=hall.data&&typeof hall.data==='object'?hall.data:{};
+      hall.data.assignmentLocks=hall.data.assignmentLocks&&typeof hall.data.assignmentLocks==='object'?hall.data.assignmentLocks:{};
+    }
     normalizeGroupRouting(p);
   }
   return ws;
