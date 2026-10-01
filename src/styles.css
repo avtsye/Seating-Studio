@@ -133,3 +133,17 @@ aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPr
 .linked-project-actions{display:flex;gap:6px;align-items:center}.linked-project-actions button{min-width:0}
 .routing-dialog{width:min(680px,calc(100vw - 30px));max-height:90vh;border:1px solid var(--line);border-radius:16px;background:#0f1520;color:var(--tx);padding:0;box-shadow:0 24px 80px #000b}.routing-dialog::backdrop{background:#0009;backdrop-filter:blur(3px)}.routing-shell{display:grid;grid-template-rows:auto minmax(0,1fr) auto;max-height:88vh}.routing-mode-options{display:grid;gap:10px;padding:14px 16px}.routing-mode-options label{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#111827;cursor:pointer}.routing-mode-options label:has(input:checked){border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}.routing-mode-options span{display:grid;gap:4px}.routing-mode-options small{color:var(--dim);line-height:1.45}.group-hall-routing{padding:0 16px 16px;overflow:auto}.routing-table-head,.group-hall-routing-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.8fr);gap:10px;align-items:center}.routing-table-head{padding:7px 8px;color:var(--dim);font-size:10px}.group-hall-routing-row{padding:7px 8px;border-top:1px solid var(--line)}.group-hall-routing-row select{width:100%;padding:7px;border:1px solid var(--line);border-radius:7px;background:#0c111a;color:var(--tx)}
 @media(max-width:700px){.linked-project-actions{display:grid}.routing-table-head,.group-hall-routing-row{grid-template-columns:1fr}.routing-table-head{display:none}}
+
+/* Routing dialog: keep mode cards and group table in normal document flow.
+   This fixes the routing table overlapping the second mode card on shorter screens. */
+.routing-dialog .routing-shell{display:flex;flex-direction:column;max-height:88vh;overflow:hidden}
+.routing-dialog .settings-head,.routing-dialog .settings-actions{flex:0 0 auto}
+.routing-dialog .routing-mode-options{flex:0 0 auto;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 16px}
+.routing-dialog .routing-mode-options label{min-width:0;position:relative;z-index:1}
+.routing-dialog .group-hall-routing{flex:1 1 auto;min-height:0;overflow:auto;padding:4px 16px 16px;border-top:1px solid var(--line);background:#0f1520}
+.routing-dialog .routing-table-head{position:sticky;top:0;z-index:2;background:#0f1520;padding-top:10px}
+.routing-dialog .group-hall-routing-row{min-height:54px}
+.routing-dialog .group-hall-routing-row select{min-width:0;max-width:100%}
+@media(max-width:700px){
+  .routing-dialog .routing-mode-options{grid-template-columns:1fr}
+}
