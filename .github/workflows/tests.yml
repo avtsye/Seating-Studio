@@ -52,3 +52,33 @@ jobs:
           name: Seating-Studio-Offline
           path: dist/Seating-Studio-Offline.html
           if-no-files-found: error
+
+  windows-exe:
+    name: Build lightweight Windows EXE
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Build offline HTML
+        run: python scripts/build_single_html.py
+      - name: Publish lightweight WebView2 EXE
+        shell: pwsh
+        run: |
+          dotnet restore windows/SeatingStudio.Win/SeatingStudio.Win.csproj
+          dotnet publish windows/SeatingStudio.Win/SeatingStudio.Win.csproj -c Release -r win-x64 --self-contained false -o dist-windows -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -p:DebugSymbols=false
+          if (-not (Test-Path "dist-windows/Seating-Studio.exe")) {
+            throw "Seating-Studio.exe was not created"
+          }
+          Get-Item "dist-windows/Seating-Studio.exe" | Format-List Name,Length,FullName
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: Seating-Studio-Windows-EXE
+          path: dist-windows/Seating-Studio.exe
+          if-no-files-found: error
