@@ -17,6 +17,10 @@
       <button id="projectHealthButton">🩺 בריאות הפרויקט <span id="projectHealthBadge" class="health-badge">0</span></button>
       <button id="recoveryVersionsButton">🕘 גרסאות אוטומטיות</button>
       <button id="whatsNewButton">✨ מה חדש</button>
+      <button id="exportProjectPackage">📦 ייצוא חבילת פרויקט</button>
+      <button id="exportReadonlyHtml">👁 HTML תצוגה בלבד</button>
+      <button id="exportFindSeatHtml">⌕ HTML מציאת מקום</button>
+      <button id="openKioskMode">▣ מצב Kiosk</button>
       <button id="reset" class="danger-action">איפוס האולם הנוכחי</button>
     </div>
   </details>
@@ -410,6 +414,7 @@
   </form>
 </dialog>
 <div id="pinnedPanel" class="pinned-panel hidden"><button id="closePinnedPanel">✕</button><div id="pinnedPanelBody"></div></div>
+<div id="kioskExitBar" class="kiosk-exit-bar hidden"><button id="exitKioskMode">צא ממצב Kiosk</button></div>
 <dialog id="firstRunWizard" class="app-dialog mega-dialog">
   <form method="dialog" class="app-dialog-shell">
     <div class="app-dialog-head"><div><h2>ברוכים הבאים ל־Seating Studio</h2><p>ארבעה צעדים קצרים לפרויקט מוכן לשיבוץ.</p></div></div>
@@ -465,6 +470,15 @@
       </section>
       <section class="settings-section shortcuts-section">
         <h3>קיצורי מקשים</h3>
+        <p class="muted">אפשר לשנות את מקשי הפעולות המהירות. יש להזין תו יחיד.</p>
+        <div class="shortcut-editor">
+          <label>חיפוש<input id="shortcutSearch" maxlength="1"></label>
+          <label>Minimap<input id="shortcutMinimap" maxlength="1"></label>
+          <label>נעילת מקום<input id="shortcutLock" maxlength="1"></label>
+          <label>קבוצות<input id="shortcutGroups" maxlength="1"></label>
+          <label>מוזמנים<input id="shortcutPeople" maxlength="1"></label>
+          <label>תוצאה<input id="shortcutResult" maxlength="1"></label>
+        </div>
         <div><kbd>Ctrl+A</kbd><span>בחר את כל המקומות המוצגים בשיבוץ</span></div>
         <div><kbd>Ctrl+Z</kbd><span>ביטול פעולה</span></div>
         <div><kbd>Ctrl+Y</kbd><span>חזרה על פעולה שבוטלה</span></div>
