@@ -131,6 +131,8 @@
   <div class="result-actions">
     <button id="exportResultCsv">ייצוא CSV מלא</button>
     <button id="exportUnassignedCsv">ייצוא לא משובצים</button>
+    <button id="exportHallPng">ייצוא אולם ל־PNG</button>
+    <button id="exportAllHallsPng">ייצוא כל האולמות</button>
     <button id="printResult">הדפסה</button>
   </div>
 </section>
@@ -142,6 +144,7 @@
   <h3>טרם שובצו</h3>
   <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
+<div id="exportProgress" class="export-progress hidden" role="status" aria-live="polite"><span class="busy-spinner"></span><div><strong id="exportProgressTitle">מכין תמונה…</strong><small id="exportProgressText">0%</small></div></div>
 <dialog id="autoAssignDialog" class="auto-assign-dialog">
   <form method="dialog" class="auto-assign-shell">
     <div class="settings-head"><div><h2>שיבוץ אוטומטי</h2><p id="autoAssignDialogText">כבר קיימים שיבוצים. מה לעשות איתם?</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
