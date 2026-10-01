@@ -53,12 +53,18 @@
 </nav>
 <section id="linkedProjectCard" class="card linked-project-card mode-assign-only assign-panel hidden" data-panel="overview">
   <div><strong id="linkedProjectTitle">אולם יחיד</strong><span id="linkedProjectSummary">השיבוץ מתבצע באולם הנוכחי.</span></div>
-  <div class="linked-project-actions">
-    <button id="configureHallRouting" class="hidden">חלוקת קבוצות לאולמות</button>
-    <button id="autoAssignLinked" class="hidden">שבץ בכל האולמות לפי הסדר</button>
-  </div>
+  <span id="linkedProjectBadge" class="linked-project-badge">אולם נוכחי</span>
 </section>
 <section id="assignWarning" class="assign-warning mode-assign-only assign-panel hidden" data-panel="overview"></section>
+<section class="card mode-assign-only assign-panel hidden assignment-actions-card" data-panel="overview" id="assignmentActionsCard">
+  <div class="assignment-actions-head"><div><h3>פעולות שיבוץ</h3><p>הפעולה הראשית עובדת על כל הפרויקט המקושר; אפשר גם לשבץ רק את האולם הנוכחי.</p></div></div>
+  <button id="autoAssignPrimary" class="assignment-main-action">⚡ שיבוץ אוטומטי לפי העדיפויות</button>
+  <div class="assignment-secondary-actions">
+    <button id="autoAssign">שבץ רק את האולם הנוכחי</button>
+    <button id="configureHallRouting" class="hidden">חלוקת קבוצות לאולמות</button>
+    <button id="clearAssignments" class="danger-action">נקה שיבוץ באולם הנוכחי</button>
+  </div>
+</section>
 <div class="stats mode-build-only"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
 <section class="card assignment-summary mode-assign-only assign-panel hidden" data-panel="overview" id="assignmentSummary">
   <h3>תמונת מצב</h3>
@@ -121,17 +127,12 @@
   <input id="csvInput" type="file" accept=".csv,text/csv" hidden>
   <button id="importCsv">ייבוא CSV</button>
   <p id="csvStatus">טרם נטען קובץ. העמודה הראשונה היא שם, והשנייה קבוצה.</p>
-  <div class="assign-actions"><button id="autoAssign">שיבוץ אוטומטי</button><button id="clearAssignments">נקה שיבוץ</button></div>
   <input id="peopleSearch" type="search" placeholder="חיפוש שם או קבוצה">
   <div id="peopleList" class="people-list"></div>
 </section>
 <section class="card mode-assign-only assign-panel hidden" data-panel="history" id="historyCard">
   <div class="history-card-head"><div><h3>היסטוריית פעולות</h3><p>חזור לנקודה קודמת או החזר פעולות שבוטלו.</p></div><button id="clearHistory">נקה</button></div>
   <div id="historyList" class="history-list"></div>
-</section>
-<section class="mode-assign-only hidden assignment-primary" id="assignmentPrimary">
-  <button id="autoAssignPrimary">⚡ עבור לשיבוץ אוטומטי</button>
-  <span>ברירת מחדל: קדימה ⅔ · מרכז ⅓ · ליד מעבר/קיר: בונוס 1.5</span>
 </section>
 <section class="card mode-result-only hidden" id="resultInfo">
   <h3>תוצאה</h3>
