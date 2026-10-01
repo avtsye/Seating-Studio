@@ -36,7 +36,7 @@ try{
   await page.waitForSelector('#settingsDialog[open]');
   await page.fill('#shortcutSearch','q');
   await page.click('#saveSettings');
-  await page.waitForSelector('#settingsDialog:not([open])');
+  await page.waitForSelector('#settingsDialog',{state:'hidden'});
 
   await page.click('#modeResult');
   await page.waitForSelector('#modeResult.active');
