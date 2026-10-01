@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups,personAllowedInHall,eligiblePeopleForHall} from '../src/workspace.js';
+import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups,personAllowedInHall,eligiblePeopleForHall,splitGroupAcrossHalls,splitHallForPerson} from '../src/workspace.js';
 
 const project={
   id:'p1',
@@ -43,3 +43,23 @@ assert.deepEqual([...groupsForHall(sharedGroupProject,'h2')].sort(),['A','B'],
   'group targeting all linked halls must remain eligible in later halls');
 assert.deepEqual(unroutedGroups(sharedGroupProject),[],
   'all-halls routing is a valid configured route');
+
+const splitProject={
+  routingMode:'by-group',
+  people:[
+    {id:'a1',group:'A'},{id:'a2',group:'A'},{id:'a3',group:'A'},
+    {id:'a4',group:'A'},{id:'a5',group:'A'}
+  ],
+  halls:[{id:'h1'},{id:'h2'}],
+  groupHallRules:{A:'__all__'}
+};
+const split=splitGroupAcrossHalls(splitProject,'A');
+assert.deepEqual(split.get('h1').map(p=>p.id),['a1','a2','a3'],
+  'mandatory equal split gives the first hall the remainder');
+assert.deepEqual(split.get('h2').map(p=>p.id),['a4','a5'],
+  'mandatory equal split puts the remaining part in the next hall');
+assert.equal(splitHallForPerson(splitProject,splitProject.people[3]),'h2');
+assert.equal(personAllowedInHall(splitProject,'h1',splitProject.people[3]),false,
+  'a person from an all-halls group belongs to one required split hall, not every hall');
+assert.deepEqual(eligiblePeopleForHall(splitProject,'h2').map(p=>p.id),['a4','a5'],
+  'each hall receives only its required share of an all-halls group');
