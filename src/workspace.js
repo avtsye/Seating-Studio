@@ -89,7 +89,7 @@ export function normalizeGroupRouting(project){
   const next={};
   for(const group of groups){
     const hallId=raw[group];
-    if(halls.has(hallId))next[group]=hallId;
+    if(hallId==='__all__'||halls.has(hallId))next[group]=hallId;
   }
   project.groupHallRules=next;
   return project;
@@ -98,7 +98,7 @@ export function normalizeGroupRouting(project){
 export function groupsForHall(project,hallId){
   normalizeGroupRouting(project);
   if(project.routingMode!=='by-group')return null;
-  return new Set(Object.entries(project.groupHallRules).filter(([,id])=>id===hallId).map(([group])=>group));
+  return new Set(Object.entries(project.groupHallRules).filter(([,id])=>id===hallId||id==='__all__').map(([group])=>group));
 }
 
 export function unroutedGroups(project){
