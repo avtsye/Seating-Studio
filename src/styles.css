@@ -202,3 +202,9 @@ body.map-fullscreen-fallback main{position:fixed!important;inset:0!important;z-i
 .assignment-cleanup-menu{grid-column:1/-1;border:1px solid #4e3035;border-radius:8px;background:#171014}.assignment-cleanup-menu summary{padding:8px 10px;color:#f4b7bd;cursor:pointer;font-size:10px;font-weight:700;user-select:none}.assignment-cleanup-menu[open] summary{border-bottom:1px solid #4e3035}.assignment-cleanup-menu>div{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}.assignment-cleanup-menu button{padding:7px;border-radius:7px;cursor:pointer}
 .group-priority-row{transition:border-color .15s,background .15s}.group-priority-row:hover{border-color:#3b4a60;background:#121b28}.group-priority-name span{font-size:9px;color:var(--dim)}.group-priority-controls{align-items:center}.group-color-label{display:flex;align-items:center;justify-content:center}.group-color{width:34px;height:30px;padding:2px;border-radius:6px}
 @media(max-width:700px){.assignment-cleanup-menu>div{grid-template-columns:1fr}}
+
+/* All-halls result layout: the combined view is the main content row, not the 38px legend row. */
+.workspace.compact-mode.all-halls-mode{grid-template-rows:48px 50px minmax(0,1fr)}
+.workspace.all-halls-mode .all-halls-overview{grid-row:3;display:grid;grid-template-rows:auto auto minmax(0,1fr);align-content:stretch;min-height:0;overflow:hidden}
+.workspace.all-halls-mode .all-halls-grid{min-height:0;overflow:auto;align-content:start;align-items:start}
+.workspace.all-halls-mode #mapLegend,.workspace.all-halls-mode #viewport,.workspace.all-halls-mode #hint{display:none!important}
