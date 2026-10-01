@@ -14,6 +14,8 @@
     <div class="top-menu-popover">
       <button id="backup">גיבוי הפרויקט</button>
       <button id="restore">שחזור מגיבוי</button>
+      <button id="projectHealthButton">🩺 בריאות הפרויקט <span id="projectHealthBadge" class="health-badge">0</span></button>
+      <button id="recoveryVersionsButton">🕘 גרסאות אוטומטיות</button>
       <button id="reset" class="danger-action">איפוס האולם הנוכחי</button>
     </div>
   </details>
@@ -258,6 +260,27 @@
       <label><input type="radio" name="autoAssignPolicy" value="overwrite"><span><strong>דרוס ושבץ מחדש</strong><small>כל השיבוצים בתחום הפעולה יימחקו, והמערכת תחשב את השיבוץ מחדש.</small></span></label>
     </div>
     <div class="settings-actions"><button value="cancel">ביטול</button><button type="button" id="confirmAutoAssign" class="primary">המשך</button></div>
+  </form>
+</dialog>
+<div id="toastRegion" class="toast-region" aria-live="polite" aria-atomic="false"></div>
+<dialog id="appConfirmDialog" class="app-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2 id="appConfirmTitle">אישור פעולה</h2><p id="appConfirmMessage"></p></div></div>
+    <div class="app-dialog-actions"><button value="cancel" id="appConfirmCancel">ביטול</button><button value="ok" id="appConfirmOk" class="primary">אישור</button></div>
+  </form>
+</dialog>
+<dialog id="projectHealthDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>בריאות הפרויקט</h2><p id="projectHealthSummary">בודק את הפרויקט…</p></div><button value="cancel" aria-label="סגור">✕</button></div>
+    <div id="projectHealthList" class="health-list"></div>
+    <div class="app-dialog-actions"><button type="button" id="refreshProjectHealth">בדוק שוב</button><button value="cancel">סגור</button></div>
+  </form>
+</dialog>
+<dialog id="recoveryVersionsDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>גרסאות אוטומטיות</h2><p>המערכת שומרת כמה נקודות שחזור אחרונות באופן אוטומטי.</p></div><button value="cancel" aria-label="סגור">✕</button></div>
+    <div id="recoveryVersionsList" class="recovery-list"></div>
+    <div class="app-dialog-actions"><button type="button" id="createRecoveryVersion">שמור גרסה עכשיו</button><button value="cancel">סגור</button></div>
   </form>
 </dialog>
 <dialog id="settingsDialog" class="settings-dialog">
