@@ -16,6 +16,7 @@
     <label>מצב<select id="seatStatusFilter"><option value="all">הכל</option><option value="available">פנויים</option><option value="assigned">משובצים</option><option value="blocked">חסומים</option></select></label>
     <label>קבוצה<select id="groupFilter"><option value="all">כל הקבוצות</option></select></label>
     <label>אזור<select id="areaFilter"><option value="all">כל האזורים</option></select></label>
+    <label>תצוגת מפה<select id="mapViewMode"><option value="groups">קבוצות</option><option value="status">מצב שיבוץ</option><option value="priority">עדיפות מקום</option></select></label>
     <div class="map-search-box">
       <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
       <button id="mapSearchPrev" title="תוצאה קודמת">‹</button>
@@ -70,6 +71,16 @@
     <button data-summary-panel="people"><b id="assignUnassigned">0</b><span>ממתינים</span></button>
     <button data-summary-panel="groups"><b id="assignGroups">0</b><span>קבוצות</span></button>
   </div>
+</section>
+<section class="card mode-assign-only assign-panel hidden diagnostics-card" data-panel="overview" id="assignmentDiagnosticsCard">
+  <div class="diagnostics-head"><div><h3>בדיקת שיבוץ</h3><p>איתור מהיר של חריגות וחוסרים בפרויקט.</p></div><button id="nextAssignmentIssue">עבור לבעיה הבאה</button></div>
+  <div class="diagnostics-grid">
+    <button data-diagnostic="unassigned"><b id="diagUnassigned">0</b><span>לא שובצו</span></button>
+    <button data-diagnostic="routing"><b id="diagRouting">0</b><span>באולם שגוי</span></button>
+    <button data-diagnostic="duplicates"><b id="diagDuplicates">0</b><span>כפילויות</span></button>
+    <button data-diagnostic="blocked"><b id="diagBlockedAssigned">0</b><span>על מקום חסום</span></button>
+  </div>
+  <p id="diagnosticsStatus" class="muted">אין חריגות.</p>
 </section>
 <section class="card" id="selection"><h3>איך עובדים?</h3><p>שרטוט יוצר אזור. לחיצה על אזור בוחרת אותו. לאחר הבחירה אפשר להמשיך לשרטט ממנו, להזיז אותו או למחוק חלקים ממנו.</p></section>
 <section class="card mode-build-only"><h3>סוג אזור חדש</h3><select id="newType"><option value="chair">כיסא</option><option value="stage">במה</option><option value="aisle">מעבר</option><option value="empty">שטח ריק</option><option value="blocked">מקום שא״א לשבת</option><option value="benches">ספסלים</option></select><label>שם<input id="newName" value="אזור חדש"></label></section>
