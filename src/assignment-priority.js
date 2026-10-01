@@ -19,29 +19,38 @@ function stageFrontDepth(seat,areas){
   if(seatCenter<stageCenter)return Math.max(0,minStage-seat.cell.y);
   return Math.min(...stageYs.map(y=>Math.abs(seat.cell.y-y)));
 }
-function aisleOrWallBonus(seat,hall,areas){
+function aisleOrWallBonus(seat,hall,areas,bonus=1.5){
   const {x,y}=seat.cell;
   const byWall=x===0||y===0||x===hall.gridWidth-1||y===hall.gridHeight-1;
   const aisles=new Set((areas||[]).filter(a=>a.type==='aisle').flatMap(a=>(a.cells||[]).map(c=>c.x+','+c.y)));
   const byAisle=aisles.has((x+1)+','+y)||aisles.has((x-1)+','+y)||aisles.has(x+','+(y+1))||aisles.has(x+','+(y-1));
-  return byWall||byAisle?1.5:0;
+  return byWall||byAisle?bonus:0;
 }
-export function seatPriorityParts(seat,hall,areas){
+function priorityConfig(options={}){
+  const num=(v,fallback)=>Number.isFinite(Number(v))?Number(v):fallback;
+  return {
+    frontWeight:Math.max(0,num(options.frontWeight,2)),
+    centerWeight:Math.max(0,num(options.centerWeight,1)),
+    edgeBonus:Math.max(0,num(options.edgeBonus,1.5))
+  };
+}
+export function seatPriorityParts(seat,hall,areas,options={}){
+  const cfg=priorityConfig(options);
   const front=stageFrontDepth(seat,areas);
   const center=Math.abs(seat.cell.x-seatingCenterX(hall,areas));
-  const edgeBonus=aisleOrWallBonus(seat,hall,areas);
-  return {front,center,edgeBonus,total:front*2+center-edgeBonus};
+  const edgeBonus=aisleOrWallBonus(seat,hall,areas,cfg.edgeBonus);
+  return {front,center,edgeBonus,total:front*cfg.frontWeight+center*cfg.centerWeight-edgeBonus};
 }
-export function seatPriorityScore(seat,hall,areas){
-  return seatPriorityParts(seat,hall,areas).total;
+export function seatPriorityScore(seat,hall,areas,options={}){
+  return seatPriorityParts(seat,hall,areas,options).total;
 }
-export function compareSeatPriority(a,b,hall,areas){
-  const pa=seatPriorityParts(a,hall,areas),pb=seatPriorityParts(b,hall,areas);
+export function compareSeatPriority(a,b,hall,areas,options={}){
+  const pa=seatPriorityParts(a,hall,areas,options),pb=seatPriorityParts(b,hall,areas,options);
   return pa.total-pb.total||pa.front-pb.front||pa.center-pb.center||a.cell.x-b.cell.x||a.cell.y-b.cell.y;
 }
-export function windowPriority(seats,hall,areas){
+export function windowPriority(seats,hall,areas,options={}){
   return seats.reduce((acc,s)=>{
-    const p=seatPriorityParts(s,hall,areas);
+    const p=seatPriorityParts(s,hall,areas,options);
     acc.total+=p.total;
     acc.worst=Math.max(acc.worst,p.total);
     acc.front+=p.front;
