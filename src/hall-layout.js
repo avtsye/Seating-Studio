@@ -22,8 +22,12 @@ export function fitHallToContent({hall,areas,blockedSeats,assignments,padding=1,
   const maxY=Math.max(...cells.map(c=>c.y));
   const shiftX=Math.max(0,minX-padding);
   const shiftY=Math.max(0,minY-padding);
-  const gridWidth=Math.max(minSize,Math.min(maxSize,maxX-shiftX+1+padding));
-  const gridHeight=Math.max(minSize,Math.min(maxSize,maxY-shiftY+1+padding));
+  const wantedWidth=Math.max(minSize,Math.min(maxSize,maxX-shiftX+1+padding));
+  const wantedHeight=Math.max(minSize,Math.min(maxSize,maxY-shiftY+1+padding));
+  const currentWidth=Math.max(minSize,Math.min(maxSize,Number(hall?.gridWidth)||maxSize));
+  const currentHeight=Math.max(minSize,Math.min(maxSize,Number(hall?.gridHeight)||maxSize));
+  const gridWidth=Math.min(currentWidth,wantedWidth);
+  const gridHeight=Math.min(currentHeight,wantedHeight);
   const changed=shiftX>0||shiftY>0||gridWidth!==(hall?.gridWidth)||gridHeight!==(hall?.gridHeight);
 
   if(shiftX||shiftY){
