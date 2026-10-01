@@ -83,9 +83,13 @@ export function duplicatePeopleAcrossHalls(project){
   return duplicates;
 }
 
+function projectGroups(project){
+  return [...new Set([...(project?.groupCatalog||[]),...(project?.people||[]).map(p=>p.group).filter(Boolean)])];
+}
+
 export function normalizeGroupRouting(project){
   const halls=new Set((project?.halls||[]).map(h=>h.id));
-  const groups=[...new Set((project?.people||[]).map(p=>p.group).filter(Boolean))];
+  const groups=projectGroups(project);
   project.routingMode=project?.routingMode==='by-group'?'by-group':'cascade';
   const raw=project?.groupHallRules&&typeof project.groupHallRules==='object'?project.groupHallRules:{};
   const next={};
@@ -106,7 +110,7 @@ export function groupsForHall(project,hallId){
 export function unroutedGroups(project){
   normalizeGroupRouting(project);
   if(project.routingMode!=='by-group')return [];
-  const groups=[...new Set((project.people||[]).map(p=>p.group).filter(Boolean))];
+  const groups=projectGroups(project);
   return groups.filter(g=>!project.groupHallRules[g]);
 }
 
