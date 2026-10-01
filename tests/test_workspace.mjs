@@ -67,3 +67,16 @@ assert.deepEqual(eligiblePeopleForHall(splitProject,'h2').map(p=>p.id),['a4','a5
 const catalogWs=normalizeWorkspace({activeProjectId:'p',projects:[{id:'p',activeHallId:'h',people:[],groupCatalog:['A','B','A'],halls:[{id:'h',data:{assignments:{}}}]}]});
 assert.deepEqual(catalogWs.projects[0].groupCatalog,['A','B'],
   'workspace normalization must preserve managed empty groups without duplicates');
+
+const emptyManaged={
+  routingMode:'by-group',
+  people:[],
+  groupCatalog:['Saved'],
+  halls:[{id:'h1'},{id:'h2'}],
+  groupHallRules:{Saved:'h2'}
+};
+normalizeGroupRouting(emptyManaged);
+assert.equal(emptyManaged.groupHallRules.Saved,'h2',
+  'empty managed groups keep routing configuration');
+assert.deepEqual(unroutedGroups(emptyManaged),[],
+  'managed empty groups count as configured groups');
