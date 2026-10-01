@@ -28,3 +28,17 @@ export function assignedSeatNumber(assignments,seats,personId){
   const found=(seats||[]).find(s=>assignments?.[seatStorageKey(s)]===personId);
   return found?String(found.number):null;
 }
+
+export function sanitizeAssignments(assignments,seats,people){
+  const raw=migrateAssignments(assignments,seats);
+  const validPeople=new Set((people||[]).map(p=>p.id));
+  const seenPeople=new Set();
+  const out={};
+  for(const seat of seats||[]){
+    const k=seatStorageKey(seat),pid=raw[k];
+    if(!pid||!validPeople.has(pid)||seenPeople.has(pid))continue;
+    out[k]=pid;
+    seenPeople.add(pid);
+  }
+  return out;
+}
