@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups,personAllowedInHall,eligiblePeopleForHall,splitGroupAcrossHalls,splitHallForPerson} from '../src/workspace.js';
+import {assignedBeforeHall,remainingPeopleForHall,removePersonFromOtherHalls,normalizeWorkspace,duplicatePeopleAcrossHalls,normalizeGroupRouting,groupsForHall,unroutedGroups,personAllowedInHall,eligiblePeopleForHall,splitGroupAcrossHalls,splitHallForPerson,hallSnapshot,sharedProjectSnapshot} from '../src/workspace.js';
 
 const project={
   id:'p1',
@@ -80,3 +80,41 @@ assert.equal(emptyManaged.groupHallRules.Saved,'h2',
   'empty managed groups keep routing configuration');
 assert.deepEqual(unroutedGroups(emptyManaged),[],
   'managed empty groups count as configured groups');
+
+
+const advancedState={
+  hall:{name:'A',gridWidth:20,gridHeight:10},
+  areas:[{id:'a',name:'מרכז',type:'chair',cells:[{x:1,y:1}]}],
+  assignments:{'1,1':'p1'},
+  assignmentLocks:{'1,1':true},
+  areaLocks:['מרכז'],
+  blockedSeats:[],
+  project:{name:'P',note:''},
+  people:[{id:'p1',name:'א',group:'G'}],
+  groupPriorities:{G:1},
+  groupColors:{G:'#123456'},
+  groupCatalog:['G'],
+  groupLocks:['G'],
+  savedViews:[{name:'V',mode:'assign'}],
+  activityLog:[{at:1,title:'x'}],
+  settings:{showGrid:true}
+};
+const hs=hallSnapshot(advancedState);
+assert.deepEqual(hs.assignmentLocks,{'1,1':true},'hall snapshot persists seat locks');
+assert.deepEqual(hs.areaLocks,['מרכז'],'hall snapshot persists area locks');
+const ss=sharedProjectSnapshot(advancedState);
+assert.deepEqual(ss.groupLocks,['G'],'project snapshot persists group locks');
+assert.equal(ss.savedViews[0].name,'V','project snapshot persists saved views');
+assert.equal(ss.activityLog[0].title,'x','project snapshot persists activity history');
+
+const normalizedAdvanced=normalizeWorkspace({
+  activeProjectId:'p',
+  projects:[{
+    id:'p',activeHallId:'h',people:[],groupCatalog:[],
+    groupLocks:['G','G'],savedViews:[{name:'V'}],activityLog:[{at:1,title:'A'}],
+    halls:[{id:'h',data:{assignments:{},assignmentLocks:{'1,1':true},areaLocks:['A','A']}}]
+  }]
+});
+assert.deepEqual(normalizedAdvanced.projects[0].groupLocks,['G']);
+assert.deepEqual(normalizedAdvanced.projects[0].halls[0].data.areaLocks,['A']);
+assert.equal(normalizedAdvanced.projects[0].halls[0].data.assignmentLocks['1,1'],true);
