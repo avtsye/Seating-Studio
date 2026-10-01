@@ -28,3 +28,13 @@ assert.equal(empty.hall.gridWidth,40);
 assert.equal(empty.hall.gridHeight,28);
 
 console.log('hall layout tests passed');
+
+const edge=fitHallToContent({
+  hall:{gridWidth:40,gridHeight:28},
+  areas:[{id:'edge',cells:[{x:0,y:0},{x:39,y:27}]}],
+  blockedSeats:[],
+  assignments:{},
+  padding:1
+});
+assert.equal(edge.hall.gridWidth,40,'fit-grid must never enlarge width just to add padding');
+assert.equal(edge.hall.gridHeight,28,'fit-grid must never enlarge height just to add padding');
