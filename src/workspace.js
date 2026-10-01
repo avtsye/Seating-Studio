@@ -64,6 +64,7 @@ export function normalizeWorkspace(raw){
     p.groupPriorities=p.groupPriorities&&typeof p.groupPriorities==='object'?p.groupPriorities:{};
     p.groupColors=p.groupColors&&typeof p.groupColors==='object'?p.groupColors:{};
     p.settings=p.settings&&typeof p.settings==='object'?p.settings:{};
+    normalizeGroupRouting(p);
   }
   return ws;
 }
@@ -78,4 +79,31 @@ export function duplicatePeopleAcrossHalls(project){
     }
   }
   return duplicates;
+}
+
+export function normalizeGroupRouting(project){
+  const halls=new Set((project?.halls||[]).map(h=>h.id));
+  const groups=[...new Set((project?.people||[]).map(p=>p.group).filter(Boolean))];
+  project.routingMode=project?.routingMode==='by-group'?'by-group':'cascade';
+  const raw=project?.groupHallRules&&typeof project.groupHallRules==='object'?project.groupHallRules:{};
+  const next={};
+  for(const group of groups){
+    const hallId=raw[group];
+    if(halls.has(hallId))next[group]=hallId;
+  }
+  project.groupHallRules=next;
+  return project;
+}
+
+export function groupsForHall(project,hallId){
+  normalizeGroupRouting(project);
+  if(project.routingMode!=='by-group')return null;
+  return new Set(Object.entries(project.groupHallRules).filter(([,id])=>id===hallId).map(([group])=>group));
+}
+
+export function unroutedGroups(project){
+  normalizeGroupRouting(project);
+  if(project.routingMode!=='by-group')return [];
+  const groups=[...new Set((project.people||[]).map(p=>p.group).filter(Boolean))];
+  return groups.filter(g=>!project.groupHallRules[g]);
 }
