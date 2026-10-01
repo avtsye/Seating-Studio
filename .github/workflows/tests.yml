@@ -35,6 +35,16 @@ jobs:
           ! grep -q 'src/app.js' dist/Seating-Studio-Offline.html
           # External runtime assets would break true offline use.
           ! grep -Eiq '<(script|link|img)[^>]+(src|href)="https?://' dist/Seating-Studio-Offline.html
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Browser smoke tests
+        run: |
+          python run.py --port 8000 > /tmp/seating-studio-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          node tests/browser_smoke.mjs
       - name: Upload single HTML
         uses: actions/upload-artifact@v4
         with:
