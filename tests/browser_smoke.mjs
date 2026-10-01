@@ -51,13 +51,21 @@ try{
   await kiosk.waitForSelector('#kioskExitBar:not(.hidden)');
   if(kioskErrors.length)throw new Error(kioskErrors.join('\n'));
 
-  const offline=await context.newPage();
+  const offlineContext=await browser.newContext({viewport:{width:1440,height:900}});
+  await offlineContext.addInitScript(()=>{
+    localStorage.setItem('seating-studio-onboarding-v1','done');
+    localStorage.setItem('seating-studio-whats-new-2026-10','seen');
+  });
+  const offline=await offlineContext.newPage();
   const offlineErrors=watch(offline,'offline');
   await offline.goto(base+'/dist/Seating-Studio-Offline.html',{waitUntil:'networkidle'});
   await offline.waitForSelector('#viewport');
+  await offline.waitForSelector('#modeBuild.active');
+  if(offlineErrors.length)throw new Error(offlineErrors.join('\n'));
   await offline.click('#modeAssign');
   await offline.waitForSelector('#modeAssign.active');
   if(offlineErrors.length)throw new Error(offlineErrors.join('\n'));
+  await offlineContext.close();
 
   console.log('browser smoke tests passed');
 } finally {
