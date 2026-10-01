@@ -37,9 +37,9 @@ jobs:
           # External runtime assets would break true offline use.
           ! grep -Eiq '<(script|link|img)[^>]+(src|href)="https?://' dist/Seating-Studio-Offline.html
       - name: Install Playwright
-        run: |
-          npm install --no-save --no-package-lock playwright@1.55.0
-          npx playwright install --with-deps chromium
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: npm install --no-save --no-package-lock playwright@1.55.0
       - name: Browser smoke tests
         run: |
           python run.py --port 8000 > /tmp/seating-studio-server.log 2>&1 &
