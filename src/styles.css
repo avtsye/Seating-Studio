@@ -77,3 +77,10 @@ aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPr
 .shortcuts-section{grid-column:1/-1}.shortcuts-section>div{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;font-size:12px;color:var(--dim)}kbd{display:inline-block;padding:4px 7px;border:1px solid #4b5870;border-bottom-width:2px;border-radius:6px;background:#0b111b;color:#fff;text-align:center}
 .settings-actions{justify-content:flex-start;border-top:1px solid var(--line);border-bottom:0}.settings-actions button,.settings-close{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#202a3a;color:var(--tx);cursor:pointer}.settings-actions .primary{background:var(--accent);color:#111;border-color:transparent;font-weight:800}
 @media(max-width:680px){.settings-body{grid-template-columns:1fr}.shortcuts-section{grid-column:auto}}
+
+.result-progress{height:7px;margin:8px 0 10px;border-radius:999px;background:#0b111a;overflow:hidden;border:1px solid var(--line)}
+#resultProgressBar{height:100%;width:0;background:linear-gradient(90deg,var(--acc),#8b5cf6);transition:width .2s ease}
+.result-actions{grid-template-columns:1fr 1fr 1fr}
+.settings-body .settings-section:first-child{grid-column:1/-1;grid-template-columns:repeat(3,1fr)}
+.settings-body .settings-section:first-child h3,.settings-body .settings-section:first-child p{grid-column:1/-1}
+@media(max-width:680px){.settings-body .settings-section:first-child{grid-template-columns:1fr}.settings-body .settings-section:first-child h3,.settings-body .settings-section:first-child p{grid-column:auto}.result-actions{grid-template-columns:1fr}}
