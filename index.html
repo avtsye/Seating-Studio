@@ -1,5 +1,5 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Seating Studio</title><link rel="stylesheet" href="src/styles.css"></head><body>
-<div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span>בונה אולם חזותי</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="settingsButton">⚙ הגדרות</button><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
+<div id="app"><header class="topbar"><div class="brand"><strong>Seating Studio</strong><span id="projectTitle">פרויקט שיבוץ</span></div><nav><button id="modeBuild" class="active" data-mode="build">בניית האולם</button><button id="modeAssign" data-mode="assign">שיבוץ</button><button id="modeResult" data-mode="result">תוצאה</button></nav><div class="top-actions"><button id="settingsButton">⚙ הגדרות</button><button id="backup">גיבוי</button><button id="restore">שחזור</button><input id="fileInput" type="file" accept=".json" hidden><button id="reset">איפוס</button></div></header>
 <main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
 <div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button></div>
 <div class="toolbar" id="tools">
@@ -14,6 +14,7 @@
   <div class="result-toolbar mode-result-only hidden">
     <label>קבוצה<select id="resultGroupFilter"><option value="all">כל הקבוצות</option></select></label>
     <label>תצוגה<select id="resultStatusFilter"><option value="all">כל המקומות</option><option value="assigned">משובצים בלבד</option><option value="available">פנויים בלבד</option><option value="blocked">חסומים בלבד</option></select></label>
+    <label>מיון<select id="resultSort"><option value="seat">לפי מקום</option><option value="name">לפי שם</option><option value="group">לפי קבוצה</option></select></label>
     <input id="resultSearch" type="search" placeholder="חיפוש משתתף / קבוצה / מקום">
     <button id="clearResultFilters">נקה</button>
   </div>
@@ -92,13 +93,15 @@
 <section class="card mode-result-only hidden" id="resultInfo">
   <h3>תוצאה</h3>
   <p id="resultSummary">אין עדיין שיבוץ.</p>
+  <div class="result-progress"><div id="resultProgressBar"></div></div>
   <div class="result-stats">
     <div><b id="assignedCount">0</b><span>משובצים</span></div>
     <div><b id="unassignedCount">0</b><span>לא שובצו</span></div>
     <div><b id="blockedCount">0</b><span>חסומים</span></div>
   </div>
   <div class="result-actions">
-    <button id="exportResultCsv">ייצוא CSV</button>
+    <button id="exportResultCsv">ייצוא CSV מלא</button>
+    <button id="exportUnassignedCsv">ייצוא לא משובצים</button>
     <button id="printResult">הדפסה</button>
   </div>
 </section>
@@ -114,6 +117,13 @@
   <form method="dialog" class="settings-shell">
     <div class="settings-head"><div><h2>הגדרות</h2><p>תצוגה, עדיפויות וקיצורי מקשים</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
     <div class="settings-body">
+      <section class="settings-section">
+        <h3>פרויקט</h3>
+        <label>שם הפרויקט<input id="settingProjectName" type="text" maxlength="80"></label>
+        <label>שם האולם / האירוע<input id="settingHallName" type="text" maxlength="80"></label>
+        <label>הערה קצרה<input id="settingProjectNote" type="text" maxlength="140"></label>
+        <p class="muted">שם הפרויקט מופיע בכותרת ובשמות קובצי הייצוא.</p>
+      </section>
       <section class="settings-section">
         <h3>תצוגה</h3>
         <label class="setting-check"><input id="settingShowGrid" type="checkbox"> הצג רשת</label>
@@ -141,11 +151,17 @@
         <div><kbd>Ctrl+Y</kbd><span>חזרה על פעולה שבוטלה</span></div>
         <div><kbd>Ctrl+Shift+Z</kbd><span>חזרה חלופית</span></div>
         <div><kbd>Ctrl+0</kbd><span>התאם מפה למסך</span></div>
+        <div><kbd>Ctrl+S</kbd><span>הורד גיבוי של הפרויקט</span></div>
+        <div><kbd>Ctrl+P</kbd><span>הדפס תוצאה (במסך תוצאה)</span></div>
         <div><kbd>Ctrl+,</kbd><span>פתח הגדרות</span></div>
         <div><kbd>Esc</kbd><span>נקה בחירה / סגור הגדרות</span></div>
       </section>
     </div>
-    <div class="settings-actions"><button type="button" id="resetSettings">אפס הגדרות</button><button type="button" id="saveSettings" class="primary">שמור</button></div>
+    <div class="settings-actions">
+      <button type="button" id="saveSettingsDefaults">שמור כברירת מחדל</button>
+      <button type="button" id="resetSettings">אפס הגדרות</button>
+      <button type="button" id="saveSettings" class="primary">שמור</button>
+    </div>
   </form>
 </dialog>
 <script type="module" src="src/app.js"></script></body></html>
