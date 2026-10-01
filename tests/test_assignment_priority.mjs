@@ -55,3 +55,17 @@ const gapWins=horizontalSeatWindows([s(0,1),s(1,1),s(3,1),s(4,1)],3);
 assert.equal(gapWins.length,0,'a gap must prevent a false contiguous group window');
 
 console.log('assignment priority tests passed');
+
+const custom={frontWeight:1,centerWeight:3,edgeBonus:4};
+const customParts=seatPriorityParts(s(5,3),hall,aisleAreas,custom);
+assert.equal(customParts.edgeBonus,4,'custom edge bonus must be applied');
+assert.equal(
+  customParts.total,
+  customParts.front*1+customParts.center*3-4,
+  'custom weighting must control the priority score'
+);
+assert.ok(
+  seatPriorityScore(s(5,2),hall,fullSeats,{frontWeight:0,centerWeight:5,edgeBonus:0}) <
+  seatPriorityScore(s(0,2),hall,fullSeats,{frontWeight:0,centerWeight:5,edgeBonus:0}),
+  'custom center weighting must affect ordering'
+);
