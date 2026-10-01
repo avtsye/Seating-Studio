@@ -23,8 +23,8 @@ class BuilderTests(unittest.TestCase):
   self.assertNotRegex(j,r'(?<!window\.)\bconfirm\s*\(')
   self.assertIn('python scripts/build_single_html.py',w)
   self.assertIn('actions/upload-artifact@v4',w)
-  self.assertIn('dist/Seating-Studio.html',w)
-  self.assertIn('OUT = ROOT / "dist" / "Seating-Studio.html"',b)
+  self.assertIn('dist/Seating-Studio-Offline.html',w)
+  self.assertIn('OUT = ROOT / "dist" / "Seating-Studio-Offline.html"',b)
   self.assertIn('Unsupported import in single-file build',b)
   self.assertIn('Unresolved imports remain in app.js',b)
  def test_large_destructive_actions_are_undoable(self):
@@ -85,6 +85,40 @@ class BuilderTests(unittest.TestCase):
    '@media(max-width:900px)',
    '@media(max-width:620px)'
   ): self.assertIn(x,c)
+ def test_export_scenarios_findseat_and_focus_features(self):
+  h=(ROOT/'index.html').read_text(encoding='utf-8')
+  j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
+  b=(ROOT/'scripts'/'build_single_html.py').read_text(encoding='utf-8')
+  w=(ROOT/'.github'/'workflows'/'tests.yml').read_text(encoding='utf-8')
+  for x in (
+   'id="xlsxInput"','id="importXlsx"','id="exportProjectXlsx"','id="exportProjectXlsxResult"',
+   'id="exportPdf"','id="exportPdfResult"','id="printByGroup"','id="scenariosDialog"',
+   'id="openScenarios"','id="compareHallsDialog"','id="compareHallsButton"',
+   'id="findSeatDialog"','id="openFindSeat"','id="personQrDialog"','id="personQrCanvas"',
+   'id="pinnedPanel"','id="focusModeButton"','id="mapCrowdingWarning"','id="personInternalId"',
+   'id="csvMergeMode"'
+  ): self.assertIn(x,h)
+  for x in (
+   'function importXlsxFile(','function exportProjectXlsx(','function saveScenarioNow(',
+   'function renderScenarios(','function assignmentMetrics(','function showBeforeAfter(',
+   'function renderCompareHalls(','function renderFindSeat(','function showPersonQr(',
+   'function toggleFocusMode(','function pinContext(','function crowdingIssues(',
+   'function prepareGroupPrint(','function exportPdfViaPrint(','function makeInternalPersonId(',
+   'buildXlsx','readXlsx','downloadBytes'
+  ): self.assertIn(x,j)
+  self.assertIn('Seating-Studio-Offline.html',b)
+  self.assertIn('node tests/test_file_formats.mjs',w)
+  self.assertIn('Seating-Studio-Offline',w)
+ def test_autosave_has_explicit_states(self):
+  j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
+  self.assertIn("setSaveStatus('saving','שומר…')",j)
+  self.assertIn("setSaveStatus('saved','נשמר עכשיו')",j)
+  self.assertIn("setSaveStatus('error'",j)
+ def test_import_merge_modes_exist(self):
+  h=(ROOT/'index.html').read_text(encoding='utf-8')
+  j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
+  for x in ('value="replace"','value="append"','value="merge"'): self.assertIn(x,h)
+  for x in ("mergeMode==='replace'","mergeMode==='merge'","skipped++"): self.assertIn(x,j)
  def test_numbering_rule(self):
   j=(ROOT/'src'/'app.js').read_text(encoding='utf-8');self.assertIn('function seatingBlocks',j);self.assertIn('(blockIndex+1)*step+start+i',j);self.assertIn('blocked:blocked.has(key(c))',j)
  def test_python_launcher(self): self.assertIn('ThreadingTCPServer',(ROOT/'run.py').read_text(encoding='utf-8'))
