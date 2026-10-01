@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
 CSS = ROOT / "src" / "styles.css"
 APP = ROOT / "src" / "app.js"
-OUT = ROOT / "dist" / "Seating-Studio.html"
+OUT = ROOT / "dist" / "Seating-Studio-Offline.html"
 
 MODULES = [
     ("assignment_priority", ROOT / "src" / "assignment-priority.js"),
