@@ -50,3 +50,8 @@ aside.assign-aside .people-list{display:grid;max-height:300px;min-height:0;overf
 .group-priority-controls{grid-area:select;display:flex;gap:6px;align-items:center}.group-priority-controls select{min-width:0;flex:1}.group-color-label{margin:0!important;display:block!important}.group-color{width:34px!important;height:32px!important;padding:2px!important;border-radius:7px!important;cursor:pointer}
 .bulk-group-label{display:grid;gap:5px;margin-bottom:8px}.bulk-group-label select{width:100%;padding:8px;border:1px solid var(--line);background:#0c111a;color:var(--tx);border-radius:8px}
 aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPrimary{position:static;z-index:auto}aside.assign-aside .people-list{overflow:auto}
+
+.bulk-select-tools{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}
+.bulk-select-tools button{padding:7px 5px;border:1px solid var(--line);background:#151d2b;color:var(--tx);border-radius:8px;cursor:pointer;font-size:11px}
+.bulk-selection-status{margin:6px 0 8px!important;padding:7px 8px;border-radius:8px;background:#101722;color:var(--dim)!important;font-size:11px!important}
+@media(max-width:1100px){.bulk-select-tools{grid-template-columns:1fr}}
