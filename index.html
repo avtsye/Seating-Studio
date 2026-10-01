@@ -26,6 +26,7 @@
     <button id="clearMapFilters">נקה סינון</button>
   </div>
   <div class="result-toolbar mode-result-only hidden">
+    <label>אולמות<select id="resultHallView"><option value="current">האולם הנוכחי</option><option value="all">כל האולמות יחד</option></select></label>
     <label>קבוצה<select id="resultGroupFilter"><option value="all">כל הקבוצות</option></select></label>
     <label>תצוגה<select id="resultStatusFilter"><option value="all">כל המקומות</option><option value="assigned">משובצים בלבד</option><option value="available">פנויים בלבד</option><option value="blocked">חסומים בלבד</option></select></label>
     <label>מיון<select id="resultSort"><option value="seat">לפי מקום</option><option value="name">לפי שם</option><option value="group">לפי קבוצה</option></select></label>
@@ -34,6 +35,10 @@
   </div>
   <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
 </div>
+<section id="allHallsOverview" class="all-halls-overview hidden">
+  <div class="all-halls-head"><div><strong>כל האולמות יחד</strong><span>תצוגה משולבת של הפרויקט. לחץ על אולם כדי לפתוח אותו.</span></div><div id="allHallsTotals"></div></div>
+  <div id="allHallsGrid" class="all-halls-grid"></div>
+</section>
 <div id="mapLegend" class="map-legend hidden">
   <span><i class="legend-swatch available"></i>פנוי</span>
   <span><i class="legend-swatch assigned"></i>משובץ</span>
@@ -49,6 +54,7 @@
   <button data-assign-panel="people">משתתפים</button>
   <button data-assign-panel="groups">קבוצות</button>
   <button data-assign-panel="areas">אזורים</button>
+  <button data-assign-panel="priority">עדיפות מקום</button>
   <button data-assign-panel="history">היסטוריה</button>
 </nav>
 <section id="linkedProjectCard" class="card linked-project-card mode-assign-only assign-panel hidden" data-panel="overview">
@@ -141,9 +147,24 @@
   <input id="peopleSearch" type="search" placeholder="חיפוש שם או קבוצה">
   <div id="peopleList" class="people-list"></div>
 </section>
+<section class="card mode-assign-only assign-panel hidden priority-screen-card" data-panel="priority" id="priorityScreenCard">
+  <div class="priority-screen-head"><div><h3>עדיפות מקום</h3><p>מסך ניתוח של דירוג המקומות לפי קדימה, מרכז ובונוס מעבר/קיר.</p></div><button id="openPrioritySettings">הגדרות</button></div>
+  <div id="priorityWeightsSummary" class="priority-weights-summary"></div>
+  <div class="priority-screen-actions"><button id="showPriorityMap">הצג מפת עדיפות</button><button id="focusBestSeat">עבור למקום הטוב ביותר</button></div>
+  <div class="priority-rankings">
+    <section><strong>המקומות הטובים ביותר</strong><div id="bestPrioritySeats"></div></section>
+    <section><strong>המקומות בעלי עדיפות נמוכה</strong><div id="worstPrioritySeats"></div></section>
+  </div>
+  <section class="priority-area-summary"><strong>ממוצע עדיפות לפי אזור</strong><div id="priorityAreaSummary"></div></section>
+</section>
 <section class="card mode-assign-only assign-panel hidden" data-panel="history" id="historyCard">
   <div class="history-card-head"><div><h3>היסטוריית פעולות</h3><p>חזור לנקודה קודמת או החזר פעולות שבוטלו.</p></div><button id="clearHistory">נקה</button></div>
   <div id="historyList" class="history-list"></div>
+</section>
+<section class="card mode-result-only hidden" id="projectResultCard">
+  <div class="project-result-head"><div><h3>תוצאת הפרויקט</h3><p>סיכום כל האולמות והקבוצות בפרויקט המקושר.</p></div></div>
+  <div id="projectResultSummary" class="project-result-summary"></div>
+  <div id="projectGroupDistribution" class="project-group-distribution"></div>
 </section>
 <section class="card mode-result-only hidden" id="resultInfo">
   <h3>תוצאה</h3>
