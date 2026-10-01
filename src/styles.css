@@ -55,3 +55,10 @@ aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPr
 .bulk-select-tools button{padding:7px 5px;border:1px solid var(--line);background:#151d2b;color:var(--tx);border-radius:8px;cursor:pointer;font-size:11px}
 .bulk-selection-status{margin:6px 0 8px!important;padding:7px 8px;border-radius:8px;background:#101722;color:var(--dim)!important;font-size:11px!important}
 @media(max-width:1100px){.bulk-select-tools{grid-template-columns:1fr}}
+
+.group-priority-actions{grid-template-columns:repeat(3,1fr)}
+.area-summary-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:stretch;padding:0;background:transparent;border:0}
+.area-filter-button,.area-select-button{border:1px solid var(--line);background:#111827;color:var(--tx);border-radius:8px;cursor:pointer}
+.area-filter-button{display:grid;gap:2px;text-align:right;padding:8px}.area-filter-button span{font-size:10px;color:var(--dim)}
+.area-select-button{padding:0 10px}.area-summary-row.selected .area-filter-button{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+#rubber.assignment-select{border-color:var(--accent);background:#f2c94c20}
