@@ -24,6 +24,7 @@ export function sharedProjectSnapshot(state){
     groupLocks:copy(state.groupLocks||[]),
     savedViews:copy(state.savedViews||[]),
     activityLog:copy(state.activityLog||[]),
+    scenarios:copy(state.scenarios||[]),
     settings:copy(state.settings||{})
   };
 }
@@ -73,6 +74,7 @@ export function normalizeWorkspace(raw){
     p.groupLocks=Array.isArray(p.groupLocks)?[...new Set(p.groupLocks.filter(Boolean))]:[];
     p.savedViews=Array.isArray(p.savedViews)?p.savedViews:[];
     p.activityLog=Array.isArray(p.activityLog)?p.activityLog.slice(-250):[];
+    p.scenarios=Array.isArray(p.scenarios)?p.scenarios.slice(-20):[];
     p.settings=p.settings&&typeof p.settings==='object'?p.settings:{};
     for(const hall of p.halls){
       hall.data=hall.data&&typeof hall.data==='object'?hall.data:{};
