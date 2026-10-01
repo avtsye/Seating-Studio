@@ -25,6 +25,7 @@ jobs:
       - run: node tests/test_seat_overlays.mjs
       - run: node tests/test_hall_layout.mjs
       - run: node tests/test_file_formats.mjs
+      - run: node tests/test_export_packages.mjs
       - run: python -m unittest discover -s tests -p "test_*.py" -v
       - name: Build single HTML
         run: python scripts/build_single_html.py
