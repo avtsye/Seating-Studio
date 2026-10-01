@@ -15,4 +15,5 @@ jobs:
       - run: node tests/test_assignment_store.mjs
       - run: node tests/test_workspace.mjs
       - run: node tests/test_seat_overlays.mjs
+      - run: node tests/test_hall_layout.mjs
       - run: python -m unittest discover -s tests -p "test_*.py" -v
