@@ -142,6 +142,16 @@
   <h3>טרם שובצו</h3>
   <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
+<dialog id="autoAssignDialog" class="auto-assign-dialog">
+  <form method="dialog" class="auto-assign-shell">
+    <div class="settings-head"><div><h2>שיבוץ אוטומטי</h2><p id="autoAssignDialogText">כבר קיימים שיבוצים. מה לעשות איתם?</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
+    <div class="auto-assign-options">
+      <label><input type="radio" name="autoAssignPolicy" value="keep" checked><span><strong>השאר שיבוצים קיימים</strong><small>האנשים שכבר שובצו והמקומות שלהם יישארו ללא שינוי. השיבוץ האוטומטי ימלא רק את המקומות הפנויים עם מי שעדיין לא שובץ.</small></span></label>
+      <label><input type="radio" name="autoAssignPolicy" value="overwrite"><span><strong>דרוס ושבץ מחדש</strong><small>כל השיבוצים בתחום הפעולה יימחקו, והמערכת תחשב את השיבוץ מחדש.</small></span></label>
+    </div>
+    <div class="settings-actions"><button value="cancel">ביטול</button><button type="button" id="confirmAutoAssign" class="primary">המשך</button></div>
+  </form>
+</dialog>
 <dialog id="settingsDialog" class="settings-dialog">
   <form method="dialog" class="settings-shell">
     <div class="settings-head"><div><h2>הגדרות</h2><p>תצוגה, עדיפויות וקיצורי מקשים</p></div><button value="cancel" class="settings-close" aria-label="סגור">✕</button></div>
