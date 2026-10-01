@@ -22,7 +22,7 @@
   </details>
   <input id="fileInput" type="file" accept=".json" hidden>
 </div></header>
-<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><div class="grow"></div><span id="historyStatus" class="history-status">אין פעולות לביטול</span><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
+<main><section class="workspace"><div class="floorbar"><strong id="floorTitle">מפת האולם</strong><span id="floorSubtitle">שרטט אזורים על הרשת כמו תכנית קומה</span><span id="mapCrowdingWarning" class="crowding-warning hidden"></span><div class="grow"></div><span id="historyStatus" class="history-status">אין פעולות לביטול</span><button id="undo">↩ ביטול</button><button id="redo">↪ חזרה</button></div>
 <div class="drawbar"><strong>מה מציירים?</strong><button class="draw-kind active" data-kind="chair">💺 כיסא</button><button class="draw-kind" data-kind="benches">▬ ספסלים</button><button class="draw-kind" data-kind="stage">🎭 במה</button><button class="draw-kind" data-kind="aisle">↔ מעבר</button><button class="draw-kind" data-kind="empty">□ שטח ריק</button><button class="draw-kind" data-kind="blocked">🚫 מקום שא״א לשבת</button><button class="draw-kind" data-kind="entrance">🚪 כניסה</button><button class="draw-kind" data-kind="exit">⇥ יציאה</button><button class="draw-kind" data-kind="column">⬛ עמוד</button><button class="draw-kind" data-kind="note">📝 הערה</button></div>
 <div class="toolbar" id="tools">
   <button class="tool active" data-tool="draw">📐 שרטוט</button><button class="tool" data-tool="move">🖐️ הזזה</button><button class="tool" data-tool="erase">🧽 מחיקה</button><span class="sep"></span>
@@ -38,7 +38,7 @@
       <button id="mapSearchNext" title="תוצאה הבאה">›</button>
       <span id="mapSearchStatus">0 תוצאות</span>
     </div>
-    <button id="clearMapFilters">נקה סינון</button>
+    <button id="focusModeButton">◎ מיקוד</button><button id="clearMapFilters">נקה סינון</button>
   </div>
   <div class="result-toolbar mode-result-only hidden">
     <label>אולמות<select id="resultHallView"><option value="current">האולם הנוכחי</option><option value="all">כל האולמות יחד</option></select></label>
