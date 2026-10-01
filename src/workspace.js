@@ -67,3 +67,15 @@ export function normalizeWorkspace(raw){
   }
   return ws;
 }
+
+export function duplicatePeopleAcrossHalls(project){
+  const firstHall=new Map(),duplicates=[];
+  for(const hall of project?.halls||[]){
+    for(const pid of assignedPeople(hall.data?.assignments)){
+      const first=firstHall.get(pid);
+      if(first&&first!==hall.id)duplicates.push({personId:pid,firstHallId:first,duplicateHallId:hall.id});
+      else if(!first)firstHall.set(pid,hall.id);
+    }
+  }
+  return duplicates;
+}
