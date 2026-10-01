@@ -36,7 +36,11 @@
   <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
 </div>
 <section id="allHallsOverview" class="all-halls-overview hidden">
-  <div class="all-halls-head"><div><strong>כל האולמות יחד</strong><span>תצוגה משולבת של הפרויקט. לחץ על אולם כדי לפתוח אותו.</span></div><div id="allHallsTotals"></div></div>
+  <div class="all-halls-head"><div><strong>כל האולמות יחד</strong><span>תצוגה משולבת של הפרויקט. אפשר לפתוח אולם, להשוות עדיפויות ולהעביר קבוצה ישירות.</span></div><div id="allHallsTotals"></div></div>
+  <div class="all-halls-tools">
+    <label>קבוצה להעברה<select id="allHallsGroupSelect"><option value="">בחר קבוצה</option></select></label>
+    <span>העברה מפנה את שיבוצי הקבוצה מהאולמות האחרים ומשבצת אותה מחדש באולם היעד.</span>
+  </div>
   <div id="allHallsGrid" class="all-halls-grid"></div>
 </section>
 <div id="mapLegend" class="map-legend hidden">
@@ -151,6 +155,7 @@
   <div class="priority-screen-head"><div><h3>עדיפות מקום</h3><p>מסך ניתוח של דירוג המקומות לפי קדימה, מרכז ובונוס מעבר/קיר.</p></div><button id="openPrioritySettings">הגדרות</button></div>
   <div id="priorityWeightsSummary" class="priority-weights-summary"></div>
   <div class="priority-screen-actions"><button id="showPriorityMap">הצג מפת עדיפות</button><button id="focusBestSeat">עבור למקום הטוב ביותר</button></div>
+  <div id="priorityBands" class="priority-bands"></div>
   <div class="priority-rankings">
     <section><strong>המקומות הטובים ביותר</strong><div id="bestPrioritySeats"></div></section>
     <section><strong>המקומות בעלי עדיפות נמוכה</strong><div id="worstPrioritySeats"></div></section>
