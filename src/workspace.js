@@ -18,6 +18,7 @@ export function sharedProjectSnapshot(state){
     people:copy(state.people||[]),
     groupPriorities:copy(state.groupPriorities||{}),
     groupColors:copy(state.groupColors||{}),
+    groupCatalog:copy(state.groupCatalog||[]),
     settings:copy(state.settings||{})
   };
 }
@@ -63,6 +64,7 @@ export function normalizeWorkspace(raw){
     p.people=Array.isArray(p.people)?p.people:[];
     p.groupPriorities=p.groupPriorities&&typeof p.groupPriorities==='object'?p.groupPriorities:{};
     p.groupColors=p.groupColors&&typeof p.groupColors==='object'?p.groupColors:{};
+    p.groupCatalog=Array.isArray(p.groupCatalog)?[...new Set(p.groupCatalog.filter(Boolean))]:[];
     p.settings=p.settings&&typeof p.settings==='object'?p.settings:{};
     normalizeGroupRouting(p);
   }
