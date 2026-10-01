@@ -267,3 +267,209 @@ body.simple-mode #assignSideTabs [data-assign-panel="priority"],body.simple-mode
 
 .seat-dot.view-structure.assigned{background:#293348!important;border-color:#72809a!important}.seat-dot.view-structure.assigned::after{display:none!important}
 .seat-dot.view-locked.lock-dim{opacity:.18;filter:grayscale(1)}.seat-dot.view-locked.locked-assignment{opacity:1!important;filter:none!important;box-shadow:inset 0 0 0 2px #facc15,0 0 0 1px #000!important}
+
+
+/* Layout containment hardening — keep every control inside its frame */
+html,body{min-width:0;max-width:100vw}
+#app{height:100%;min-width:0;display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+.topbar{
+  height:auto!important;
+  min-height:64px;
+  display:grid!important;
+  grid-template-columns:auto minmax(260px,1fr) auto auto;
+  gap:8px;
+  align-items:center;
+  padding:7px 12px!important;
+  min-width:0;
+}
+.topbar>*{min-width:0}
+.brand{min-width:0;overflow:hidden}
+.brand strong,.brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.workspace-switcher{min-width:0;max-width:100%;overflow:hidden}
+.workspace-switcher label{min-width:0}
+.workspace-switcher select{min-width:0;max-width:118px}
+.topbar nav{min-width:0;flex-wrap:nowrap;overflow:hidden}
+.topbar nav button,.top-actions>button,.top-actions summary{white-space:nowrap}
+.top-actions{min-width:0}
+.top-menu{position:relative;min-width:0}
+.top-menu-popover{max-width:min(320px,calc(100vw - 24px));max-height:70vh;overflow:auto}
+
+main{
+  height:auto!important;
+  min-height:0;
+  min-width:0;
+  grid-template-columns:minmax(0,1fr) minmax(300px,330px)!important;
+  overflow:hidden;
+}
+.workspace,aside{min-width:0;min-height:0}
+aside{overflow:auto;overscroll-behavior:contain}
+aside>*{min-width:0;max-width:100%}
+.card,.stats,.assign-warning,.assign-side-tabs,.workflow-progress{min-width:0;max-width:100%}
+
+.floorbar,.toolbar,.drawbar,.map-legend{
+  min-width:0;
+  max-width:100%;
+}
+.floorbar{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+.floorbar>*{flex:0 0 auto}
+.floorbar .grow{flex:1 1 auto;min-width:8px}
+.history-status{max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.workspace{
+  grid-template-rows:minmax(44px,auto) minmax(44px,auto) minmax(46px,auto) minmax(0,1fr) minmax(34px,auto)!important;
+}
+.workspace.compact-mode{
+  grid-template-rows:minmax(44px,auto) minmax(46px,auto) minmax(34px,auto) minmax(0,1fr) minmax(34px,auto)!important;
+}
+.workspace.compact-mode.all-halls-mode{grid-template-rows:minmax(44px,auto) minmax(46px,auto) minmax(0,1fr)!important}
+
+.toolbar{
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:thin;
+  flex-wrap:nowrap;
+}
+.toolbar>*{flex:0 0 auto}
+.toolbar .grow{flex:1 0 8px;min-width:8px}
+.assign-toolbar,.result-toolbar{min-width:max-content!important;max-width:none}
+.assign-toolbar label,.result-toolbar label{min-width:0}
+.assign-toolbar select,.result-toolbar select{max-width:155px}
+.map-search-box{min-width:220px;max-width:360px}
+.map-search-box input{min-width:0!important;width:100%!important}
+
+.map-legend{overflow:hidden}
+.group-legend{flex:1 1 auto;max-width:100%;overflow-x:auto}
+.group-chip{max-width:220px}
+.group-chip span{overflow:hidden;text-overflow:ellipsis}
+
+.assign-side-tabs{
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.assign-side-tabs button{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.workflow-progress{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+.workflow-progress button{min-width:0}
+.workflow-progress span,.workflow-progress small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.people-import-actions,
+.assignment-secondary-actions,
+.result-actions,
+.dashboard-actions,
+.bulk-select-tools,
+.seat-quick-actions{
+  min-width:0;
+}
+.people-import-actions{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+}
+.people-import-actions button,
+.assignment-secondary-actions button,
+.result-actions button,
+.dashboard-actions button,
+.bulk-select-tools button,
+.seat-quick-actions button{
+  min-width:0;
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+.person-row,.result-person-row,.unassigned-row{min-width:0}
+.person-row strong,.person-row span,.result-person-row strong,.result-person-row span,.unassigned-row strong,.unassigned-row span{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.group-priority-row{min-width:0}
+.group-priority-name,.group-priority-controls,.group-priority-actions{min-width:0}
+.group-priority-actions{display:flex;gap:5px;flex-wrap:wrap}
+.group-priority-actions button{flex:1 1 92px;min-width:0;white-space:normal}
+
+.summary-grid,.diagnostics-grid,.dashboard-stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+.summary-grid>*,
+.diagnostics-grid>*,
+.dashboard-stats>*{min-width:0}
+
+.breakdown-head,.diagnostics-head,.priority-screen-head,.history-card-head,.project-result-head,.report-center-head{
+  min-width:0;
+  flex-wrap:wrap;
+}
+.breakdown-head>div,.diagnostics-head>div,.priority-screen-head>div,.history-card-head>div,.project-result-head>div,.report-center-head>div{min-width:0}
+.breakdown-head select,.diagnostics-head button,.priority-screen-head button{max-width:100%}
+
+.app-dialog,.settings-dialog,.auto-assign-dialog,.routing-dialog{
+  max-width:calc(100vw - 24px)!important;
+  max-height:calc(100vh - 24px)!important;
+}
+.app-dialog-shell,.settings-shell,.auto-assign-shell,.routing-shell{
+  min-width:0;
+  max-width:100%;
+}
+.settings-body,.person-grid,.csv-mapping-fields,.partial-assign-grid,.wizard-grid{
+  min-width:0;
+}
+.settings-section,.partial-assign-grid section{min-width:0}
+.settings-section input,.settings-section select,.person-grid input,.person-grid select{max-width:100%}
+
+.csv-preview,.people-table,.report-table-wrap{max-width:100%;overflow:auto}
+.csv-preview table,.people-table table,.report-table-wrap table{min-width:620px}
+.saved-view-row,.activity-row,.universal-search-results button{min-width:0}
+.saved-view-row>div,.activity-row>div,.universal-search-results button strong{min-width:0}
+
+.mini-map{
+  max-width:calc(100vw - 44px);
+  max-height:calc(100vh - 120px);
+}
+.mini-map canvas{max-width:100%;height:auto}
+.breadcrumb-bar{max-width:calc(100vw - 40px);overflow:hidden}
+.breadcrumb-bar span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+#viewport{min-width:0;min-height:0}
+#selection{overflow-wrap:anywhere}
+#selection img,#selection canvas{max-width:100%}
+
+@media(max-width:1500px){
+  .topbar{grid-template-columns:auto minmax(220px,1fr) auto}
+  .top-actions{grid-column:3;grid-row:2;justify-self:end}
+  .topbar nav{grid-column:3;grid-row:1}
+  .workspace-switcher{grid-column:2;grid-row:1 / span 2}
+  .brand{grid-row:1 / span 2}
+  .brand span{display:none}
+  main{grid-template-columns:minmax(0,1fr) minmax(290px,315px)!important}
+}
+@media(max-width:1180px){
+  .topbar{grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto}
+  .brand{grid-column:1;grid-row:1}
+  .top-actions{grid-column:2;grid-row:1}
+  .workspace-switcher{grid-column:1 / -1;grid-row:2;width:100%;overflow-x:auto}
+  .topbar nav{grid-column:1 / -1;grid-row:3;justify-content:center;overflow-x:auto}
+  main{grid-template-columns:minmax(0,1fr) minmax(270px,300px)!important}
+}
+@media(max-width:900px){
+  #app{overflow:auto;display:block}
+  body{overflow:auto!important}
+  .topbar{position:sticky;top:0;z-index:500}
+  main{display:block!important;overflow:visible;padding:8px}
+  .workspace{min-height:calc(100vh - 190px)}
+  aside{display:block!important;max-height:none;overflow:visible;margin-top:8px}
+  .mini-map{position:fixed;left:10px;bottom:10px}
+}
+@media(max-width:620px){
+  .workspace-switcher{gap:3px}
+  .workspace-switcher button{padding-inline:6px}
+  .workspace-switcher select{max-width:92px}
+  .topbar nav button{padding:7px 9px}
+  .people-import-actions,.dashboard-actions,.result-actions{grid-template-columns:1fr!important}
+  .assign-side-tabs{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .workflow-progress{grid-template-columns:1fr!important}
+  .person-grid,.csv-mapping-fields,.wizard-grid{grid-template-columns:1fr!important}
+}
