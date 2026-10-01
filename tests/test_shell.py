@@ -18,7 +18,7 @@ class BuilderTests(unittest.TestCase):
   w=(ROOT/'.github'/'workflows'/'tests.yml').read_text(encoding='utf-8')
   b=(ROOT/'scripts'/'build_single_html.py').read_text(encoding='utf-8')
   for x in ('id="toastRegion"','id="appConfirmDialog"','id="projectHealthDialog"','id="projectHealthButton"','id="projectHealthBadge"','id="recoveryVersionsDialog"','id="recoveryVersionsButton"','id="createRecoveryVersion"'): self.assertIn(x,h)
-  for x in ('function notify(','function appConfirm(','function projectHealthIssues(','function renderProjectHealth(','function recoveryVersions(','function saveRecoveryVersion(','function renderRecoveryVersions(','function updateSaveAge(','RECOVERY_KEY','RECOVERY_LIMIT=8','async function moveProjectGroupToHall','async function clearAllProjectAssignments','async function removeAllGuests','async function assignSeat'): self.assertIn(x,j)
+  for x in ('function notify(','function notifyUndo(','function appConfirm(','function projectHealthIssues(','function renderProjectHealth(','function recoveryVersions(','function recoverySignature(','function saveRecoveryVersion(','function renderRecoveryVersions(','function updateSaveAge(','RECOVERY_KEY','RECOVERY_LIMIT=8','async function moveProjectGroupToHall','async function clearAllProjectAssignments','async function removeAllGuests','async function assignSeat'): self.assertIn(x,j)
   self.assertNotRegex(j,r'(?<!window\.)\balert\s*\(')
   self.assertNotRegex(j,r'(?<!window\.)\bconfirm\s*\(')
   self.assertIn('python scripts/build_single_html.py',w)
