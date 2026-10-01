@@ -8,6 +8,7 @@ export function hallSnapshot(state){
     areas:copy(state.areas||[]),
     assignments:copy(state.assignments||{}),
     assignmentLocks:copy(state.assignmentLocks||{}),
+    areaLocks:copy(state.areaLocks||[]),
     blockedSeats:copy(state.blockedSeats||[])
   };
 }
@@ -76,6 +77,7 @@ export function normalizeWorkspace(raw){
     for(const hall of p.halls){
       hall.data=hall.data&&typeof hall.data==='object'?hall.data:{};
       hall.data.assignmentLocks=hall.data.assignmentLocks&&typeof hall.data.assignmentLocks==='object'?hall.data.assignmentLocks:{};
+      hall.data.areaLocks=Array.isArray(hall.data.areaLocks)?[...new Set(hall.data.areaLocks.filter(Boolean))]:[];
     }
     normalizeGroupRouting(p);
   }
