@@ -47,14 +47,17 @@
 <section class="card mode-build-only"><h3>רשת</h3><div class="edit-grid"><label>רוחב הרשת<input id="gridWidth" type="number" min="10" max="200" value="40"></label><label>גובה הרשת<input id="gridHeight" type="number" min="10" max="200" value="28"></label></div><p>גודל המשבצת נשאר קבוע. ההגדרה משנה את מספר המשבצות במשטח העבודה.</p></section><section class="card mode-build-only"><h3>שמירה</h3><p id="saveState">נשמר אוטומטית בדפדפן.</p></section>
 <section class="card mode-assign-only hidden bulk-selection-card" id="bulkSelectionCard">
   <h3>בחירה מרובה</h3>
-  <p><b id="selectedSeatsCount">0</b> מקומות נבחרו. Ctrl/⌘ + לחיצה מוסיפים או מסירים מקום מהבחירה.</p>
+  <p><b id="selectedSeatsCount">0</b> מקומות נבחרו. Ctrl/⌘ + לחיצה מוסיפים/מסירים, ו־Shift + גרירה בוחר מלבן.</p>
   <label class="bulk-group-label">קבוצה
     <select id="bulkGroupSelect"><option value="">בחר קבוצה</option></select>
   </label>
   <div class="bulk-select-tools">
     <button id="selectAvailableSeats">בחר פנויים</button>
+    <button id="selectFilteredSeats">בחר מסוננים</button>
     <button id="selectAreaSeats">בחר אזור מסונן</button>
     <button id="selectGroupSeats">בחר מקומות הקבוצה</button>
+    <button id="selectRowSeats">בחר שורה</button>
+    <button id="invertSeatSelection">הפוך בחירה</button>
   </div>
   <p id="bulkSelectionStatus" class="bulk-selection-status">אין מקומות נבחרים.</p>
   <div class="bulk-actions">
