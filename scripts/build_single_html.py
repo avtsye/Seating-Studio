@@ -13,6 +13,7 @@ MODULES = [
     ("assignment_store", ROOT / "src" / "assignment-store.js"),
     ("workspace", ROOT / "src" / "workspace.js"),
     ("hall_layout", ROOT / "src" / "hall-layout.js"),
+    ("file_formats", ROOT / "src" / "file-formats.js"),
 ]
 
 IMPORT_RE = re.compile(r"^import\s*\{([^}]+)\}\s*from\s*['\"]([^'\"]+)['\"];?\s*$", re.M)
