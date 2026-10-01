@@ -29,3 +29,17 @@ normalizeGroupRouting(routed);
 assert.equal(routed.routingMode,'by-group','group routing mode must be preserved');
 assert.deepEqual([...groupsForHall(routed,'h1')],['A'],'hall routing must select only mapped groups');
 assert.deepEqual(unroutedGroups(routed),['C'],'invalid or missing hall mappings must remain visibly unrouted');
+
+const sharedGroupProject={
+  routingMode:'by-group',
+  people:[{id:'1',group:'A'},{id:'2',group:'B'}],
+  halls:[{id:'h1'},{id:'h2'}],
+  groupHallRules:{A:'__all__',B:'h2'}
+};
+normalizeGroupRouting(sharedGroupProject);
+assert.deepEqual([...groupsForHall(sharedGroupProject,'h1')],['A'],
+  'group can target all linked halls and be eligible in the first hall');
+assert.deepEqual([...groupsForHall(sharedGroupProject,'h2')].sort(),['A','B'],
+  'group targeting all linked halls must remain eligible in later halls');
+assert.deepEqual(unroutedGroups(sharedGroupProject),[],
+  'all-halls routing is a valid configured route');
