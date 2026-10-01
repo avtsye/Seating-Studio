@@ -65,6 +65,26 @@ class BuilderTests(unittest.TestCase):
   j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
   self.assertIn("if(!pid||!selectedIds.has(pid))continue",j)
   self.assertIn("allowedPersonIds:selectedIds",j)
+ def test_layout_containment_hardening(self):
+  c=(ROOT/'src'/'styles.css').read_text(encoding='utf-8')
+  for x in (
+   '/* Layout containment hardening',
+   '#app{height:100%;min-width:0;display:grid',
+   'grid-template-columns:auto minmax(260px,1fr) auto auto',
+   'main{',
+   'minmax(300px,330px)',
+   '.toolbar{',
+   'overflow-x:auto',
+   '.assign-toolbar,.result-toolbar{min-width:max-content',
+   '.assign-side-tabs{',
+   'grid-template-columns:repeat(4,minmax(0,1fr))',
+   '.people-import-actions{',
+   'grid-template-columns:repeat(2,minmax(0,1fr))',
+   '@media(max-width:1500px)',
+   '@media(max-width:1180px)',
+   '@media(max-width:900px)',
+   '@media(max-width:620px)'
+  ): self.assertIn(x,c)
  def test_numbering_rule(self):
   j=(ROOT/'src'/'app.js').read_text(encoding='utf-8');self.assertIn('function seatingBlocks',j);self.assertIn('(blockIndex+1)*step+start+i',j);self.assertIn('blocked:blocked.has(key(c))',j)
  def test_python_launcher(self): self.assertIn('ThreadingTCPServer',(ROOT/'run.py').read_text(encoding='utf-8'))
