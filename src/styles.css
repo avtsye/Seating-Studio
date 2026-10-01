@@ -119,3 +119,7 @@ aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPr
 .linked-hall-status{padding:4px 7px;border-radius:999px;background:#151b25;color:var(--dim);font-size:9px;white-space:nowrap}.linked-hall-status.active{background:#13251f;color:#91e3c3;border:1px solid #245c49}
 .linked-project-card{display:flex;align-items:center;gap:8px}.linked-project-card>div{display:grid;gap:2px;flex:1}.linked-project-card span{font-size:10px;color:var(--dim)}.linked-project-card button{padding:8px;border:1px solid #6d5920;border-radius:8px;background:#2a230d;color:#ffe287;cursor:pointer;font-weight:700}
 @media(max-width:1250px){.workspace-switcher label{font-size:0}.workspace-switcher select{max-width:95px}.linked-hall-status{display:none}}
+
+.auto-assign-dialog{width:min(620px,calc(100vw - 30px));border:1px solid var(--line);border-radius:16px;background:#0f1520;color:var(--tx);padding:0;box-shadow:0 24px 80px #000b}
+.auto-assign-dialog::backdrop{background:#0009;backdrop-filter:blur(3px)}
+.auto-assign-shell{display:grid}.auto-assign-options{display:grid;gap:10px;padding:16px}.auto-assign-options label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:12px;border:1px solid var(--line);border-radius:10px;background:#111827;cursor:pointer}.auto-assign-options label:has(input:checked){border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}.auto-assign-options input{margin-top:4px}.auto-assign-options span{display:grid;gap:4px}.auto-assign-options small{color:var(--dim);line-height:1.55}
