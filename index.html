@@ -16,6 +16,7 @@
       <button id="restore">שחזור מגיבוי</button>
       <button id="projectHealthButton">🩺 בריאות הפרויקט <span id="projectHealthBadge" class="health-badge">0</span></button>
       <button id="recoveryVersionsButton">🕘 גרסאות אוטומטיות</button>
+      <button id="whatsNewButton">✨ מה חדש</button>
       <button id="reset" class="danger-action">איפוס האולם הנוכחי</button>
     </div>
   </details>
@@ -90,6 +91,7 @@
 <section class="card mode-assign-only assign-panel hidden assignment-actions-card" data-panel="overview" id="assignmentActionsCard">
   <div class="assignment-actions-head"><div><h3>פעולות שיבוץ</h3><p>הפעולה הראשית עובדת על כל הפרויקט המקושר; אפשר גם לשבץ רק את האולם הנוכחי.</p></div></div>
   <button id="autoAssignPrimary" class="assignment-main-action">⚡ שיבוץ אוטומטי לפי העדיפויות</button>
+  <button id="partialAssignButton">🎯 שיבוץ חלקי…</button>
   <div class="assignment-secondary-actions">
     <button id="autoAssign">שבץ רק את האולם הנוכחי</button>
     <button id="configureHallRouting" class="hidden">חלוקת קבוצות לאולמות</button>
@@ -198,6 +200,9 @@
 <section class="card mode-assign-only assign-panel hidden" data-panel="history" id="historyCard">
   <div class="history-card-head"><div><h3>היסטוריית פעולות</h3><p>חזור לנקודה קודמת או החזר פעולות שבוטלו.</p></div><button id="clearHistory">נקה</button></div>
   <div id="historyList" class="history-list"></div>
+  <hr>
+  <strong>היסטוריית פרויקט</strong>
+  <div id="activityList" class="activity-list"></div>
 </section>
 <section class="card mode-result-only hidden report-center-card" id="reportCenterCard">
   <div class="report-center-head"><div><h3>מרכז דוחות</h3><p>הפקת דוחות לכל הפרויקט, האולמות, הקבוצות והחריגות.</p></div></div>
@@ -206,6 +211,8 @@
     <option value="halls">סיכום אולמות</option>
     <option value="groups">חלוקת קבוצות</option>
     <option value="issues">חריגות ובעיות שיבוץ</option>
+    <option value="current-view">התצוגה הנוכחית</option>
+    <option value="group-roster">רשימה לפי קבוצות</option>
   </select></label>
   <div id="reportPreview" class="report-preview"></div>
   <div class="report-actions"><button id="exportReportCsv">ייצוא CSV</button><button id="printReportCenter">הדפס דוח</button></div>
@@ -298,6 +305,26 @@
   </form>
 </dialog>
 
+<dialog id="partialAssignDialog" class="app-dialog mega-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>שיבוץ חלקי</h2><p>בחר קבוצות או מוזמנים. אם לא תבחר דבר, ישובצו כל הממתינים.</p></div><button value="cancel">✕</button></div>
+    <div class="partial-assign-grid"><section><strong>קבוצות</strong><div id="partialAssignGroups"></div></section><section><strong>מוזמנים</strong><input id="partialAssignSearch" type="search" placeholder="חיפוש"><div id="partialAssignPeople"></div></section></div>
+    <div class="app-dialog-actions"><button value="cancel">ביטול</button><button type="button" id="runPartialAssign" class="primary">שבץ את הבחירה</button></div>
+  </form>
+</dialog>
+<dialog id="whatsNewDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>מה חדש ב־Seating Studio</h2><p>היכולות החדשות בגל הנוכחי.</p></div><button value="cancel">✕</button></div>
+    <div class="whats-new-list">
+      <div><b>🔒 נעילות חכמות</b><span>מקום, מוזמן, קבוצה ואזור — עם דריסה מלאה או שמירת נעילות.</span></div>
+      <div><b>🎯 שיבוץ חכם</b><span>שיבוץ חלקי, קבוצות משנה והעדפות אישיות.</span></div>
+      <div><b>⌕ עבודה מהירה</b><span>חיפוש כללי, גרירה, תפריט קליק ימני, minimap ותצוגות שמורות.</span></div>
+      <div><b>👥 ניהול מוזמנים</b><span>הוספה ידנית, טבלת עריכה וייבוא CSV עם מיפוי עמודות.</span></div>
+      <div><b>🧭 זרימת עבודה</b><span>דשבורד, breadcrumbs, פס התקדמות, onboarding ושחזור בטוח.</span></div>
+    </div>
+    <div class="app-dialog-actions"><button value="cancel">סגור</button></div>
+  </form>
+</dialog>
 <dialog id="personDialog" class="app-dialog wide-dialog">
   <form method="dialog" class="app-dialog-shell" id="personForm">
     <div class="app-dialog-head"><div><h2 id="personDialogTitle">מוזמן</h2><p>פרטים, קבוצת משנה והעדפות שיבוץ.</p></div><button value="cancel">✕</button></div>
