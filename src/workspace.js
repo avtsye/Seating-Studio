@@ -113,10 +113,35 @@ export function personAllowedInHall(project,hallId,person){
   normalizeGroupRouting(project);
   if(project.routingMode!=='by-group'||!person.group)return true;
   const rule=project.groupHallRules?.[person.group];
-  return rule==='__all__'||rule===hallId;
+  if(rule==='__all__')return splitHallForPerson(project,person)===hallId;
+  return rule===hallId;
 }
 
 export function eligiblePeopleForHall(project,hallId,excludedIds=new Set()){
   const excluded=excludedIds instanceof Set?excludedIds:new Set(excludedIds||[]);
   return (project?.people||[]).filter(person=>!excluded.has(person.id)&&personAllowedInHall(project,hallId,person));
+}
+
+export function splitGroupAcrossHalls(project,group){
+  const halls=project?.halls||[];
+  const people=(project?.people||[]).filter(p=>p.group===group);
+  const out=new Map(halls.map(h=>[h.id,[]]));
+  if(!halls.length)return out;
+  const base=Math.floor(people.length/halls.length),extra=people.length%halls.length;
+  let offset=0;
+  halls.forEach((hall,index)=>{
+    const count=base+(index<extra?1:0);
+    out.set(hall.id,people.slice(offset,offset+count));
+    offset+=count;
+  });
+  return out;
+}
+
+export function splitHallForPerson(project,person){
+  if(!project||!person?.group)return null;
+  normalizeGroupRouting(project);
+  if(project.groupHallRules?.[person.group]!=='__all__')return null;
+  const split=splitGroupAcrossHalls(project,person.group);
+  for(const [hallId,people] of split)if(people.some(p=>p.id===person.id))return hallId;
+  return null;
 }
