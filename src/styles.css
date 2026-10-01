@@ -498,3 +498,25 @@ aside>*{min-width:0;max-width:100%}
 .csv-merge-mode{display:grid;gap:5px}.csv-merge-mode select{padding:8px;border:1px solid var(--line);border-radius:8px;background:#0b111a;color:var(--tx)}
 .report-actions{display:flex;gap:6px;flex-wrap:wrap}.report-actions button{flex:1 1 115px;min-width:0}
 @media(max-width:700px){.compare-hall-visuals{grid-template-columns:1fr}.compare-stat{grid-template-columns:1fr 60px 32px 60px}.scenario-row{grid-template-columns:1fr 1fr 1fr}.scenario-row>div{grid-column:1/-1}.before-after-summary>div{grid-template-columns:1fr}}
+
+
+/* Kiosk, persistent shortcuts and distribution modes */
+.shortcut-editor{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:8px 0 10px}
+.shortcut-editor label{display:grid;gap:4px;font-size:9px;color:var(--dim)}
+.shortcut-editor input{width:100%;padding:7px;border:1px solid var(--line);border-radius:7px;background:#0b111a;color:var(--tx);text-align:center;text-transform:uppercase}
+.kiosk-exit-bar{position:fixed;left:16px;top:16px;z-index:3000}
+.kiosk-exit-bar button{padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:#101722;color:var(--tx);box-shadow:0 8px 22px #0008;cursor:pointer}
+body.kiosk-mode .topbar,
+body.kiosk-mode aside,
+body.kiosk-mode #tools,
+body.kiosk-mode .floorbar,
+body.kiosk-mode #hint,
+body.kiosk-mode .breadcrumb-bar,
+body.kiosk-mode .mini-map,
+body.kiosk-mode .toast-region{display:none!important}
+body.kiosk-mode #app{display:block!important;height:100vh}
+body.kiosk-mode main{display:block!important;height:100vh!important;padding:0!important}
+body.kiosk-mode .workspace{height:100vh!important;display:block!important}
+body.kiosk-mode #allHallsOverview{height:100vh;overflow:auto;padding:18px!important}
+body.kiosk-mode .all-halls-grid{min-height:calc(100vh - 90px)}
+@media(max-width:700px){.shortcut-editor{grid-template-columns:1fr 1fr}}
