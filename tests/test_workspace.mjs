@@ -63,3 +63,7 @@ assert.equal(personAllowedInHall(splitProject,'h1',splitProject.people[3]),false
   'a person from an all-halls group belongs to one required split hall, not every hall');
 assert.deepEqual(eligiblePeopleForHall(splitProject,'h2').map(p=>p.id),['a4','a5'],
   'each hall receives only its required share of an all-halls group');
+
+const catalogWs=normalizeWorkspace({activeProjectId:'p',projects:[{id:'p',activeHallId:'h',people:[],groupCatalog:['A','B','A'],halls:[{id:'h',data:{assignments:{}}}]}]});
+assert.deepEqual(catalogWs.projects[0].groupCatalog,['A','B'],
+  'workspace normalization must preserve managed empty groups without duplicates');
