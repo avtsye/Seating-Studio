@@ -20,6 +20,8 @@ class DomIntegrityTests(unittest.TestCase):
             "quickClearSeat","quickToggleBlocked","quickSelectRow",
             "quickSelectBlock","quickSelectArea","editSelectedSeat",
             "areaName","areaType","duplicate","deleteArea",
+            "compareCanvasA","compareCanvasB","emptyAddPerson",
+            "quickPinPanel","quickSeatLock",
         }
         missing = sorted(
             x for x in refs
