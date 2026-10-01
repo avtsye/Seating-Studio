@@ -181,10 +181,8 @@ aside.assign-aside #peopleCard{overflow:visible}aside.assign-aside #assignmentPr
 .priority-bands{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.priority-bands>div{display:grid;gap:2px;padding:7px;border:1px solid var(--line);border-radius:8px;background:#0b111a}.priority-bands strong{font-size:9px}.priority-bands span{font-size:8px;color:var(--dim)}
 @media(max-width:800px){.all-halls-tools{display:grid}.all-halls-tools label{display:grid}.hall-priority-strip,.priority-bands{grid-template-columns:1fr 1fr}.hall-overview-actions{grid-template-columns:1fr}}
 
-/* Fullscreen map */
-.workspace:fullscreen{width:100vw;height:100vh;max-width:none;background:#090d14;display:flex;flex-direction:column}.workspace:fullscreen #viewport,.workspace:fullscreen .all-halls-overview{flex:1;min-height:0}.workspace:fullscreen .floorbar,.workspace:fullscreen .toolbar{flex:0 0 auto}
-body.map-fullscreen-fallback{overflow:hidden}body.map-fullscreen-fallback .workspace{position:fixed!important;inset:0!important;z-index:500;width:100vw!important;height:100vh!important;background:#090d14;display:flex;flex-direction:column}body.map-fullscreen-fallback .workspace #viewport,body.map-fullscreen-fallback .workspace .all-halls-overview{flex:1;min-height:0}
-#toggleFullscreen{white-space:nowrap}
+/* Fullscreen trigger; the actual fullscreen layout is defined for main below. */
+body.map-fullscreen-fallback{overflow:hidden}#toggleFullscreen{white-space:nowrap}
 
 /* Priority filter */
 .assign-toolbar #priorityBandFilter{min-width:105px}.priority-bands button{display:grid;gap:2px;padding:7px;border:1px solid var(--line);border-radius:8px;background:#0b111a;color:var(--tx);text-align:right;cursor:pointer}.priority-bands button:hover{border-color:var(--acc)}.priority-bands button strong{font-size:9px}.priority-bands button span{font-size:8px;color:var(--dim)}
@@ -200,3 +198,7 @@ body.map-fullscreen-fallback{overflow:hidden}body.map-fullscreen-fallback .works
 main:fullscreen{width:100vw;height:100vh;max-width:none;background:#090d14;display:grid;grid-template-columns:minmax(0,1fr) 330px;overflow:hidden}main:fullscreen .workspace{min-width:0;height:100vh}main:fullscreen aside{display:block!important;height:100vh;overflow:auto;border-right:1px solid var(--line);background:#0d131d}main:fullscreen .workspace #viewport,main:fullscreen .workspace .all-halls-overview{flex:1;min-height:0}
 body.map-fullscreen-fallback main{position:fixed!important;inset:0!important;z-index:500;width:100vw!important;height:100vh!important;display:grid!important;grid-template-columns:minmax(0,1fr) 330px;background:#090d14}body.map-fullscreen-fallback main aside{display:block!important;height:100vh;overflow:auto}
 @media(max-width:850px){main:fullscreen,body.map-fullscreen-fallback main{grid-template-columns:minmax(0,1fr) 280px}}
+
+.assignment-cleanup-menu{grid-column:1/-1;border:1px solid #4e3035;border-radius:8px;background:#171014}.assignment-cleanup-menu summary{padding:8px 10px;color:#f4b7bd;cursor:pointer;font-size:10px;font-weight:700;user-select:none}.assignment-cleanup-menu[open] summary{border-bottom:1px solid #4e3035}.assignment-cleanup-menu>div{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:8px}.assignment-cleanup-menu button{padding:7px;border-radius:7px;cursor:pointer}
+.group-priority-row{transition:border-color .15s,background .15s}.group-priority-row:hover{border-color:#3b4a60;background:#121b28}.group-priority-name span{font-size:9px;color:var(--dim)}.group-priority-controls{align-items:center}.group-color-label{display:flex;align-items:center;justify-content:center}.group-color{width:34px;height:30px;padding:2px;border-radius:6px}
+@media(max-width:700px){.assignment-cleanup-menu>div{grid-template-columns:1fr}}
