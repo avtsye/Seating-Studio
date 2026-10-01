@@ -17,3 +17,16 @@ jobs:
       - run: node tests/test_seat_overlays.mjs
       - run: node tests/test_hall_layout.mjs
       - run: python -m unittest discover -s tests -p "test_*.py" -v
+      - name: Build single HTML
+        run: python scripts/build_single_html.py
+      - name: Validate single HTML
+        run: |
+          test -s dist/Seating-Studio.html
+          ! grep -q 'src/styles.css' dist/Seating-Studio.html
+          ! grep -q 'src/app.js' dist/Seating-Studio.html
+      - name: Upload single HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: Seating-Studio-single-html
+          path: dist/Seating-Studio.html
+          if-no-files-found: error
