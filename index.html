@@ -175,7 +175,8 @@
 <section class="card mode-assign-only assign-panel hidden" data-panel="people" id="peopleCard">
   <h3>רשימת משתתפים</h3>
   <input id="csvInput" type="file" accept=".csv,text/csv" hidden>
-  <div class="people-import-actions"><button id="addPerson">＋ הוסף מוזמן</button><button id="importCsv">ייבוא CSV חכם</button><button id="openPeopleTable">טבלת עריכה</button><button id="deleteAllPeople" class="danger-action">מחק את כל המוזמנים</button></div>
+  <input id="xlsxInput" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+  <div class="people-import-actions"><button id="addPerson">＋ הוסף מוזמן</button><button id="importCsv">ייבוא CSV חכם</button><button id="importXlsx">ייבוא XLSX</button><button id="openPeopleTable">טבלת עריכה</button><button id="deleteAllPeople" class="danger-action">מחק את כל המוזמנים</button></div>
   <p id="csvStatus">טרם נטען קובץ. העמודה הראשונה היא שם, והשנייה קבוצה.</p>
   <input id="peopleSearch" type="search" placeholder="חיפוש שם או קבוצה">
   <div id="peopleList" class="people-list"></div>
@@ -195,7 +196,8 @@
   <div class="dashboard-head"><div><h3>סקירת פרויקט</h3><p>מצב הפרויקט, המשימה הבאה ובעיות שדורשות תשומת לב.</p></div><button id="continueProject">המשך מאיפה שעצרת</button></div>
   <div id="dashboardStats" class="dashboard-stats"></div>
   <div id="dashboardNextStep" class="dashboard-next-step"></div>
-  <div class="dashboard-actions"><button id="openUniversalSearch">⌕ חיפוש</button><button id="openSavedViews">תצוגות שמורות</button><button id="duplicateCurrentHall">שכפל אולם</button></div>
+  <div class="dashboard-actions"><button id="openUniversalSearch">⌕ חיפוש</button><button id="openSavedViews">תצוגות שמורות</button><button id="openScenarios">תרחישים</button><button id="openFindSeat">מצא מקום</button><button id="compareHallsButton">השווה אולמות</button><button id="duplicateCurrentHall">שכפל אולם</button></div>
+  <div id="beforeAfterSummary" class="before-after-summary hidden"></div>
 </section>
 <section class="card mode-assign-only assign-panel hidden" data-panel="history" id="historyCard">
   <div class="history-card-head"><div><h3>היסטוריית פעולות</h3><p>חזור לנקודה קודמת או החזר פעולות שבוטלו.</p></div><button id="clearHistory">נקה</button></div>
@@ -215,7 +217,7 @@
     <option value="group-roster">רשימה לפי קבוצות</option>
   </select></label>
   <div id="reportPreview" class="report-preview"></div>
-  <div class="report-actions"><button id="exportReportCsv">ייצוא CSV</button><button id="printReportCenter">הדפס דוח</button></div>
+  <div class="report-actions"><button id="exportReportCsv">ייצוא CSV</button><button id="exportProjectXlsx">ייצוא XLSX</button><button id="printReportCenter">הדפס דוח</button><button id="exportPdf">ייצוא PDF</button><button id="printByGroup">הדפס לפי קבוצה</button></div>
 </section>
 <section class="card mode-result-only hidden" id="projectResultCard">
   <div class="project-result-head"><div><h3>תוצאת הפרויקט</h3><p>סיכום כל האולמות והקבוצות בפרויקט המקושר.</p></div><button id="showAllHallsResult">הצג את כל האולמות יחד</button></div>
@@ -233,6 +235,8 @@
   </div>
   <div class="result-actions">
     <button id="exportResultCsv">ייצוא CSV מלא</button>
+    <button id="exportProjectXlsxResult">ייצוא XLSX</button>
+    <button id="exportPdfResult">ייצוא PDF</button>
     <button id="exportUnassignedCsv">ייצוא לא משובצים</button>
     <button id="exportHallPng">ייצוא אולם ל־PNG</button>
     <button id="exportAllHallsPng">ייצוא כל האולמות</button>
@@ -330,7 +334,7 @@
     <div class="app-dialog-head"><div><h2 id="personDialogTitle">מוזמן</h2><p>פרטים, קבוצת משנה והעדפות שיבוץ.</p></div><button value="cancel">✕</button></div>
     <input id="personEditId" type="hidden">
     <div class="person-grid">
-      <label>שם<input id="personName" required></label><label>קבוצה<input id="personGroup"></label>
+      <label>מזהה פנימי<input id="personInternalId" placeholder="נוצר אוטומטית אם נשאר ריק"></label><label>שם<input id="personName" required></label><label>קבוצה<input id="personGroup"></label>
       <label>קבוצת משנה<input id="personSubgroup"></label><label>הערה<input id="personNote"></label>
       <label>העדפת אזור<input id="personPreferredArea" placeholder="למשל מרכז"></label>
       <label>העדפת מיקום<select id="personPreference"><option value="">ללא</option><option value="front">קדימה</option><option value="back">מאחור</option><option value="center">מרכז</option><option value="edge">ליד מעבר/קיר</option></select></label>
@@ -342,6 +346,13 @@
 <dialog id="csvMappingDialog" class="app-dialog wide-dialog">
   <form method="dialog" class="app-dialog-shell">
     <div class="app-dialog-head"><div><h2>מיפוי עמודות CSV</h2><p>בחר איזו עמודה מייצגת כל שדה. מוצגות שורות לדוגמה לפני הייבוא.</p></div><button value="cancel">✕</button></div>
+    <label class="csv-merge-mode">מצב ייבוא
+      <select id="csvMergeMode">
+        <option value="replace">החלף את כל הרשימה</option>
+        <option value="append">הוסף חדשים בלבד</option>
+        <option value="merge">עדכן קיימים לפי מזהה/שם והוסף חדשים</option>
+      </select>
+    </label>
     <div id="csvMappingFields" class="csv-mapping-fields"></div>
     <div id="csvPreview" class="csv-preview"></div>
     <div class="app-dialog-actions"><button value="cancel">ביטול</button><button type="button" id="confirmCsvImport" class="primary">ייבא</button></div>
@@ -369,6 +380,36 @@
     <div id="savedViewsList" class="saved-views-list"></div>
   </form>
 </dialog>
+<dialog id="scenariosDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>תרחישים</h2><p>שמור מצב מלא של הפרויקט, נסה שיבוץ אחר והשווה.</p></div><button value="cancel">✕</button></div>
+    <div class="scenario-create"><input id="scenarioName" placeholder="שם התרחיש"><button type="button" id="saveScenario">שמור תרחיש נוכחי</button></div>
+    <div id="scenarioList" class="scenario-list"></div>
+  </form>
+</dialog>
+<dialog id="compareHallsDialog" class="app-dialog mega-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>השוואת אולמות</h2><p>בחר שני אולמות והשווה קיבולת, שיבוץ, חסימות ואיכות.</p></div><button value="cancel">✕</button></div>
+    <div class="compare-selects"><select id="compareHallA"></select><span>מול</span><select id="compareHallB"></select></div>
+    <div id="compareHallsResult" class="compare-halls-result"></div>
+  </form>
+</dialog>
+<dialog id="findSeatDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>מצא את המקום שלך</h2><p>חיפוש לפי מזהה פנימי או שם. אפשר לשתף קישור ישיר.</p></div><button value="cancel">✕</button></div>
+    <input id="findSeatInput" type="search" placeholder="מזהה / שם">
+    <div id="findSeatResult" class="find-seat-result"></div>
+  </form>
+</dialog>
+<dialog id="personQrDialog" class="app-dialog wide-dialog">
+  <form method="dialog" class="app-dialog-shell">
+    <div class="app-dialog-head"><div><h2>קישור/QR למוזמן</h2><p id="personQrCaption"></p></div><button value="cancel">✕</button></div>
+    <canvas id="personQrCanvas" width="256" height="256"></canvas>
+    <input id="personQrLink" readonly>
+    <div class="app-dialog-actions"><button type="button" id="copyPersonQrLink">העתק קישור</button><button value="cancel">סגור</button></div>
+  </form>
+</dialog>
+<div id="pinnedPanel" class="pinned-panel hidden"><button id="closePinnedPanel">✕</button><div id="pinnedPanelBody"></div></div>
 <dialog id="firstRunWizard" class="app-dialog mega-dialog">
   <form method="dialog" class="app-dialog-shell">
     <div class="app-dialog-head"><div><h2>ברוכים הבאים ל־Seating Studio</h2><p>ארבעה צעדים קצרים לפרויקט מוכן לשיבוץ.</p></div></div>
@@ -432,6 +473,12 @@
         <div><kbd>Ctrl+S</kbd><span>הורד גיבוי של הפרויקט</span></div>
         <div><kbd>Ctrl+P</kbd><span>הדפס תוצאה (במסך תוצאה)</span></div>
         <div><kbd>Ctrl+,</kbd><span>פתח הגדרות</span></div>
+        <div><kbd>F</kbd><span>חיפוש אוניברסלי</span></div>
+        <div><kbd>M</kbd><span>הפעל/כבה minimap</span></div>
+        <div><kbd>L</kbd><span>נעל/בטל נעילת המקום הנבחר</span></div>
+        <div><kbd>G</kbd><span>עבור לקבוצות</span></div>
+        <div><kbd>P</kbd><span>עבור למוזמנים</span></div>
+        <div><kbd>R</kbd><span>עבור לתוצאה</span></div>
         <div><kbd>Esc</kbd><span>נקה בחירה / סגור הגדרות</span></div>
       </section>
     </div>
