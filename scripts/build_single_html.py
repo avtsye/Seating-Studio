@@ -14,6 +14,7 @@ MODULES = [
     ("workspace", ROOT / "src" / "workspace.js"),
     ("hall_layout", ROOT / "src" / "hall-layout.js"),
     ("file_formats", ROOT / "src" / "file-formats.js"),
+    ("export_packages", ROOT / "src" / "export-packages.js"),
 ]
 
 IMPORT_RE = re.compile(r"^import\s*\{([^}]+)\}\s*from\s*['\"]([^'\"]+)['\"];?\s*$", re.M)
