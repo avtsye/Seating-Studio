@@ -32,6 +32,39 @@ class BuilderTests(unittest.TestCase):
   self.assertIn("snapshotWorkspace('מחיקת כל השיבוצים בפרויקט')",j)
   self.assertIn("snapshotWorkspace('מחיקת כל המוזמנים')",j)
   self.assertIn("snapshot('איפוס אולם')",j)
+ def test_advanced_workflow_features(self):
+  h=(ROOT/'index.html').read_text(encoding='utf-8')
+  j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
+  c=(ROOT/'src'/'styles.css').read_text(encoding='utf-8')
+  for x in (
+   'value="keep"','value="overwrite-regular"','value="overwrite-all"',
+   'id="workflowProgress"','id="projectDashboardCard"','id="partialAssignDialog"',
+   'id="personDialog"','id="csvMappingDialog"','id="peopleTableDialog"',
+   'id="universalSearchDialog"','id="savedViewsDialog"','id="firstRunWizard"',
+   'id="seatContextMenu"','id="miniMap"','id="breadcrumbBar"','id="whatsNewDialog"',
+   'id="settingShowMinimap"','id="settingSimpleMode"','id="settingShowAssignmentReasons"',
+   'data-kind="entrance"','data-kind="exit"','data-kind="column"','data-kind="note"',
+   '<option value="structure">מבנה</option>','<option value="locked">נעילות</option>'
+  ): self.assertIn(x,h)
+  for x in (
+   'function assignmentLockReason(','function clearAssignmentsForPolicy(',
+   'function personSeatPreferenceScore(','function assignmentReason(',
+   'function openPersonEditor(','function openCsvMapping(','function renderPeopleTable(',
+   'function updateWorkflowProgress(','function renderProjectDashboard(',
+   'function universalSearchItems(','function renderSavedViews(','function duplicateCurrentHall(',
+   'function drawMiniMap(','function showSeatContextMenu(','function applyInternalRoute(',
+   'function maybeShowFirstRunWizard(','function openPartialAssign(','function runPartialAssignment(',
+   "seatLayer.addEventListener('dragstart'","seatLayer.addEventListener('contextmenu'",
+   "overwrite-regular","overwrite-all","subgroup","preferredArea","groupLocks","areaLocks","assignmentLocks"
+  ): self.assertIn(x,j)
+  self.assertIn('body.simple-mode',c)
+  self.assertIn('.mini-map',c)
+  self.assertIn('.seat-context-menu',c)
+  self.assertIn('.seat-dot.view-locked.lock-dim',c)
+ def test_partial_assignment_preserves_unselected_scope(self):
+  j=(ROOT/'src'/'app.js').read_text(encoding='utf-8')
+  self.assertIn("if(!pid||!selectedIds.has(pid))continue",j)
+  self.assertIn("allowedPersonIds:selectedIds",j)
  def test_numbering_rule(self):
   j=(ROOT/'src'/'app.js').read_text(encoding='utf-8');self.assertIn('function seatingBlocks',j);self.assertIn('(blockIndex+1)*step+start+i',j);self.assertIn('blocked:blocked.has(key(c))',j)
  def test_python_launcher(self): self.assertIn('ThreadingTCPServer',(ROOT/'run.py').read_text(encoding='utf-8'))
