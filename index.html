@@ -17,6 +17,7 @@
     <label>קבוצה<select id="groupFilter"><option value="all">כל הקבוצות</option></select></label>
     <label>אזור<select id="areaFilter"><option value="all">כל האזורים</option></select></label>
     <label>תצוגת מפה<select id="mapViewMode"><option value="groups">קבוצות</option><option value="status">מצב שיבוץ</option><option value="priority">עדיפות מקום</option><option value="issues">חריגות</option></select></label>
+    <label>דרגת עדיפות<select id="priorityBandFilter"><option value="all">כל הדרגות</option><option value="top">עדיפות גבוהה</option><option value="good">טובה</option><option value="mid">בינונית</option><option value="low">נמוכה</option></select></label>
     <div class="map-search-box">
       <input id="mapSearch" type="search" placeholder="חיפוש שם / מקום / אזור">
       <button id="mapSearchPrev" title="תוצאה קודמת">‹</button>
@@ -33,7 +34,7 @@
     <input id="resultSearch" type="search" placeholder="חיפוש משתתף / קבוצה / מקום">
     <button id="clearResultFilters">נקה</button>
   </div>
-  <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button>
+  <div class="grow"></div><button id="zoomOut">−</button><span id="zoomLabel">100%</span><button id="zoomIn">＋</button><button id="fit">התאם</button><button id="toggleFullscreen" title="הצג את המפה במסך מלא">⛶ מסך מלא</button>
 </div>
 <section id="allHallsOverview" class="all-halls-overview hidden">
   <div class="all-halls-head"><div><strong>כל האולמות יחד</strong><span>תצוגה משולבת של הפרויקט. אפשר לפתוח אולם, להשוות עדיפויות ולהעביר קבוצה ישירות.</span></div><div id="allHallsTotals"></div></div>
@@ -166,6 +167,17 @@
   <div class="history-card-head"><div><h3>היסטוריית פעולות</h3><p>חזור לנקודה קודמת או החזר פעולות שבוטלו.</p></div><button id="clearHistory">נקה</button></div>
   <div id="historyList" class="history-list"></div>
 </section>
+<section class="card mode-result-only hidden report-center-card" id="reportCenterCard">
+  <div class="report-center-head"><div><h3>מרכז דוחות</h3><p>הפקת דוחות לכל הפרויקט, האולמות, הקבוצות והחריגות.</p></div></div>
+  <label>סוג דוח<select id="reportType">
+    <option value="assignments">שיבוץ משתתפים — כל האולמות</option>
+    <option value="halls">סיכום אולמות</option>
+    <option value="groups">חלוקת קבוצות</option>
+    <option value="issues">חריגות ובעיות שיבוץ</option>
+  </select></label>
+  <div id="reportPreview" class="report-preview"></div>
+  <div class="report-actions"><button id="exportReportCsv">ייצוא CSV</button><button id="printReportCenter">הדפס דוח</button></div>
+</section>
 <section class="card mode-result-only hidden" id="projectResultCard">
   <div class="project-result-head"><div><h3>תוצאת הפרויקט</h3><p>סיכום כל האולמות והקבוצות בפרויקט המקושר.</p></div></div>
   <div id="projectResultSummary" class="project-result-summary"></div>
@@ -196,6 +208,7 @@
   <h3>טרם שובצו</h3>
   <div id="unassignedList" class="unassigned-list"></div>
 </section></aside></main></div>
+<section id="reportPrintSheet" class="print-only report-print-sheet"></section>
 <div id="exportProgress" class="export-progress hidden" role="status" aria-live="polite"><span class="busy-spinner"></span><div><strong id="exportProgressTitle">מכין תמונה…</strong><small id="exportProgressText">0%</small></div></div>
 <dialog id="hallRoutingDialog" class="routing-dialog">
   <form method="dialog" class="routing-shell">
