@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {seatStorageKey,migrateAssignments,assignmentDisplayEntries,assignedSeatNumber} from '../src/assignment-store.js';
+import {seatStorageKey,migrateAssignments,assignmentDisplayEntries,assignedSeatNumber,sanitizeAssignments} from '../src/assignment-store.js';
 
 const seats=[
   {number:1001,cell:{x:4,y:2}},
