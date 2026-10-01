@@ -74,6 +74,7 @@
     <button id="autoAssign">שבץ רק את האולם הנוכחי</button>
     <button id="configureHallRouting" class="hidden">חלוקת קבוצות לאולמות</button>
     <button id="clearAssignments" class="danger-action">נקה שיבוץ באולם הנוכחי</button>
+    <button id="clearAllAssignments" class="danger-action">מחק את כל השיבוצים בפרויקט</button>
   </div>
 </section>
 <div class="stats mode-build-only"><div><b id="areaCount">0</b><span>אזורים</span></div><div><b id="seatCount">0</b><span>מקומות</span></div></div>
@@ -107,7 +108,7 @@
 </section>
 <section class="card" id="selection"><h3>איך עובדים?</h3><p>שרטוט יוצר אזור. לחיצה על אזור בוחרת אותו. לאחר הבחירה אפשר להמשיך לשרטט ממנו, להזיז אותו או למחוק חלקים ממנו.</p></section>
 <section class="card mode-build-only"><h3>סוג אזור חדש</h3><select id="newType"><option value="chair">כיסא</option><option value="stage">במה</option><option value="aisle">מעבר</option><option value="empty">שטח ריק</option><option value="blocked">מקום שא״א לשבת</option><option value="benches">ספסלים</option></select><label>שם<input id="newName" value="אזור חדש"></label></section>
-<section class="card mode-build-only"><h3>רשת</h3><div class="edit-grid"><label>רוחב הרשת<input id="gridWidth" type="number" min="10" max="200" value="40"></label><label>גובה הרשת<input id="gridHeight" type="number" min="10" max="200" value="28"></label></div><p>גודל המשבצת נשאר קבוע. ההגדרה משנה את מספר המשבצות במשטח העבודה.</p></section><section class="card mode-build-only"><h3>שמירה</h3><p id="saveState">נשמר אוטומטית בדפדפן.</p></section>
+<section class="card mode-build-only"><h3>רשת</h3><div class="edit-grid"><label>רוחב הרשת<input id="gridWidth" type="number" min="10" max="200" value="40"></label><label>גובה הרשת<input id="gridHeight" type="number" min="10" max="200" value="28"></label></div><button id="fitGridToHall" disabled>התאם רשת לאולם</button><p>הכפתור מצמצם שטח ריק מיותר סביב האובייקטים שכבר צוירו, בלי להזיז אותם.</p></section><section class="card mode-build-only"><h3>שמירה</h3><p id="saveState">נשמר אוטומטית בדפדפן.</p></section>
 <section class="card mode-assign-only assign-panel hidden bulk-selection-card" data-panel="overview" id="bulkSelectionCard">
   <h3>בחירה מרובה</h3>
   <p><b id="selectedSeatsCount">0</b> מקומות נבחרו. Ctrl/⌘ + לחיצה מוסיפים/מסירים, ו־Shift + גרירה בוחר מלבן.</p>
@@ -130,9 +131,9 @@
     <button id="clearSeatSelection">נקה בחירה</button>
   </div>
 </section>
-<section class="card mode-assign-only assign-panel hidden" data-panel="groups" id="groupPriorityCard">
-  <h3>עדיפות קבוצות</h3>
-  <p>קבוצה עם מספר עדיפות נמוך יותר תקבל קודם את המקומות הטובים יותר. אפשר לבחור "ללא עדיפות".</p>
+<section class="card mode-assign-only assign-panel hidden group-manager-card" data-panel="groups" id="groupPriorityCard">
+  <div class="group-manager-head"><div><h3>ניהול קבוצות</h3><p>הקבוצות ממוינות אוטומטית לפי דרגת הקדימות, ואחר כך לפי שם.</p></div></div>
+  <div class="group-manager-actions"><button id="addGroup">＋ הוסף קבוצה</button><button id="autoGroupColors">🎨 צבעים אוטומטיים</button></div>
   <div id="groupPriorityList" class="group-priority-list"></div>
 </section>
 <section class="card mode-assign-only assign-panel hidden" data-panel="areas" id="areaSummaryCard">
@@ -147,7 +148,7 @@
 <section class="card mode-assign-only assign-panel hidden" data-panel="people" id="peopleCard">
   <h3>רשימת משתתפים</h3>
   <input id="csvInput" type="file" accept=".csv,text/csv" hidden>
-  <button id="importCsv">ייבוא CSV</button>
+  <div class="people-import-actions"><button id="importCsv">ייבוא CSV</button><button id="deleteAllPeople" class="danger-action">מחק את כל המוזמנים</button></div>
   <p id="csvStatus">טרם נטען קובץ. העמודה הראשונה היא שם, והשנייה קבוצה.</p>
   <input id="peopleSearch" type="search" placeholder="חיפוש שם או קבוצה">
   <div id="peopleList" class="people-list"></div>
@@ -179,7 +180,7 @@
   <div class="report-actions"><button id="exportReportCsv">ייצוא CSV</button><button id="printReportCenter">הדפס דוח</button></div>
 </section>
 <section class="card mode-result-only hidden" id="projectResultCard">
-  <div class="project-result-head"><div><h3>תוצאת הפרויקט</h3><p>סיכום כל האולמות והקבוצות בפרויקט המקושר.</p></div></div>
+  <div class="project-result-head"><div><h3>תוצאת הפרויקט</h3><p>סיכום כל האולמות והקבוצות בפרויקט המקושר.</p></div><button id="showAllHallsResult">הצג את כל האולמות יחד</button></div>
   <div id="projectResultSummary" class="project-result-summary"></div>
   <div id="projectGroupDistribution" class="project-group-distribution"></div>
 </section>
